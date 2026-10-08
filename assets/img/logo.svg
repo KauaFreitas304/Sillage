@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
+  <defs>
+    <linearGradient id="sillage-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5C6B5E"/>
+      <stop offset="60%" stop-color="#3A473C"/>
+      <stop offset="100%" stop-color="#5C6B5E"/>
+    </linearGradient>
+    <linearGradient id="scent-trail" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#C8A2C8" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#F2DCB1" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#9FAF90" stop-opacity="0.4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Tipografia refinada Sillage -->
+  <text x="35" y="52" font-family="'Cinzel', 'Playfair Display', 'Cormorant Garamond', Georgia, serif" font-size="44" font-weight="500" fill="url(#sillage-gold)" letter-spacing="1.5">Sillage</text>
+
+  <!-- Rastro Olfativo Floral Fluido (French Sillage) -->
+  <path d="M 12 60 C 25 35, 45 68, 80 56 C 110 46, 150 72, 210 60 C 250 52, 280 62, 310 54" 
+        stroke="url(#scent-trail)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <path d="M 22 66 C 45 48, 70 72, 120 62 C 160 54, 210 70, 260 58" 
+        stroke="#F2DCB1" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- Pétalas / Folhas sutis no rastro -->
+  <path d="M 240 56 C 248 50, 256 52, 252 58 C 246 62, 240 60, 240 56 Z" fill="#9FAF90" opacity="0.8"/>
+  <path d="M 175 64 C 182 59, 188 61, 185 66 C 180 69, 175 68, 175 64 Z" fill="#C8A2C8" opacity="0.8"/>
+  <circle cx="12" cy="60" r="2.5" fill="#C8A2C8"/>
+</svg>

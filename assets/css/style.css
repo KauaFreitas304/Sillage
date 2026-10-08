@@ -1,0 +1,872 @@
+/* ========================================================
+   Sillage - Folha de Estilos Principal
+   Desenvolvedores: Kauã Freitas e Yasmin Cristiny
+   ======================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Cinzel:wght@500;700&display=swap');
+
+:root {
+  --sillage-lilac: #C8A2C8;
+  --sillage-sage: #9FAF90;
+  --sillage-champagne: #F2DCB1;
+  --sillage-offwhite: #EAE5D9;
+  --sillage-darkgreen: #5C6B5E;
+
+  /* Variações e sombras complementares */
+  --sillage-darkgreen-deep: #435044;
+  --sillage-sage-dark: #819173;
+  --sillage-sage-light: #B8C7AA;
+  --sillage-champagne-light: #FBF4E4;
+  --sillage-champagne-dark: #DECA9B;
+  --sillage-lilac-light: #DFCAE0;
+  --sillage-lilac-dark: #A983AA;
+
+  --sillage-font-serif: 'Playfair Display', Georgia, serif;
+  --sillage-font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --sillage-font-brand: 'Cinzel', 'Playfair Display', serif;
+
+  --sillage-shadow-sm: 0 4px 12px rgba(92, 107, 94, 0.08);
+  --sillage-shadow-md: 0 10px 25px rgba(92, 107, 94, 0.14);
+  --sillage-shadow-lg: 0 16px 36px rgba(92, 107, 94, 0.20);
+  --sillage-radius-sm: 8px;
+  --sillage-radius-md: 16px;
+  --sillage-radius-lg: 24px;
+  --sillage-radius-pill: 999px;
+  --sillage-transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset e Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--sillage-font-sans);
+  background-color: var(--sillage-offwhite);
+  color: var(--sillage-darkgreen);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, .sillage-serif {
+  font-family: var(--sillage-font-serif);
+  color: var(--sillage-darkgreen);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--sillage-darkgreen);
+  text-decoration: none;
+  transition: var(--sillage-transition);
+}
+
+a:hover {
+  color: var(--sillage-darkgreen-deep);
+}
+
+/* ========================================================
+   Header e Navegação (Fiel aos Mockups 2, 3 e 4)
+   ======================================================== */
+.sillage-header {
+  background-color: var(--sillage-darkgreen);
+  border-bottom: 2px solid var(--sillage-champagne);
+  box-shadow: var(--sillage-shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  transition: var(--sillage-transition);
+}
+
+.sillage-brand-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sillage-logo-img {
+  height: 52px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+}
+
+.sillage-brand-name {
+  font-family: var(--sillage-font-brand);
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: var(--sillage-champagne);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.sillage-page-title-badge {
+  font-family: var(--sillage-font-serif);
+  font-size: 1.6rem;
+  color: var(--sillage-champagne-light);
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left: 1px solid rgba(242, 220, 177, 0.4);
+}
+
+/* Pílulas de Navegação (Conforme Wireframes) */
+.sillage-nav-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 24px;
+  border-radius: var(--sillage-radius-pill);
+  background: linear-gradient(135deg, var(--sillage-champagne) 0%, #E6CD9E 100%);
+  color: var(--sillage-darkgreen);
+  font-family: var(--sillage-font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  transition: var(--sillage-transition);
+  text-decoration: none;
+}
+
+.sillage-nav-pill:hover,
+.sillage-nav-pill.active {
+  background: linear-gradient(135deg, var(--sillage-champagne-light) 0%, var(--sillage-champagne) 100%);
+  color: var(--sillage-darkgreen-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.18);
+  border-color: var(--sillage-champagne);
+}
+
+/* Botão Discreto de Login ADM */
+.sillage-adm-lock-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(242, 220, 177, 0.15);
+  color: var(--sillage-champagne);
+  border: 1px solid rgba(242, 220, 177, 0.3);
+  transition: var(--sillage-transition);
+  margin-left: 10px;
+}
+
+.sillage-adm-lock-btn:hover {
+  background: var(--sillage-champagne);
+  color: var(--sillage-darkgreen);
+  transform: rotate(10deg) scale(1.08);
+}
+
+/* ========================================================
+   Layout Geral & Estrutura da Home (RF01 / Imagem 2)
+   ======================================================== */
+.sillage-main-wrapper {
+  flex: 1;
+  display: flex;
+  background-color: var(--sillage-offwhite);
+  min-height: calc(100vh - 140px);
+}
+
+/* Barra Lateral de Tópicos / Curiosidades (Fiel ao Mockup 1) */
+.sillage-sidebar {
+  width: 290px;
+  min-width: 290px;
+  background-color: var(--sillage-sage);
+  padding: 35px 25px 35px 25px;
+  position: relative;
+  border-right: 2px solid var(--sillage-champagne);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.sillage-sidebar-title {
+  font-family: var(--sillage-font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #1F2820;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--sillage-darkgreen);
+}
+
+.sillage-sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sillage-sidebar-item a {
+  display: flex;
+  align-items: center;
+  font-family: var(--sillage-font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #1E291F;
+  padding: 10px 14px;
+  border-radius: var(--sillage-radius-sm);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(92, 107, 94, 0.2);
+  transition: var(--sillage-transition);
+}
+
+.sillage-sidebar-item a::before {
+  content: "✦";
+  font-size: 0.85rem;
+  color: var(--sillage-darkgreen);
+  margin-right: 10px;
+  transition: var(--sillage-transition);
+}
+
+.sillage-sidebar-item a:hover {
+  background: var(--sillage-champagne-light);
+  border-color: var(--sillage-champagne-dark);
+  transform: translateX(6px);
+  color: #0E150F;
+  box-shadow: 0 4px 10px rgba(92, 107, 94, 0.12);
+}
+
+.sillage-sidebar-item a:hover::before {
+  color: var(--sillage-lilac-dark);
+  transform: rotate(45deg);
+}
+
+/* Divisor Botânico (O Ramo do Wireframe 2) */
+.sillage-botanical-divider {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  width: 40px;
+  height: 100%;
+  pointer-events: none;
+  background-image: url('../img/vine-divider.svg');
+  background-repeat: repeat-y;
+  background-size: 40px auto;
+  z-index: 5;
+  opacity: 0.95;
+}
+
+/* Área Central de Lançamentos */
+.sillage-content-area {
+  flex: 1;
+  padding: 40px 50px;
+  position: relative;
+}
+
+.sillage-section-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.sillage-section-header h2 {
+  font-size: 2.8rem;
+  font-weight: 500;
+  color: var(--sillage-darkgreen);
+  letter-spacing: -0.5px;
+}
+
+/* Carrossel de Lançamentos (Cards no formato do Wireframe 2) */
+.sillage-carousel-container {
+  position: relative;
+  padding: 10px 40px;
+}
+
+.sillage-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.sillage-launch-card {
+  background: var(--sillage-sage);
+  border-radius: var(--sillage-radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  transition: var(--sillage-transition);
+  box-shadow: var(--sillage-shadow-sm);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.sillage-launch-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--sillage-shadow-lg);
+  border-color: var(--sillage-champagne);
+}
+
+.sillage-card-img-wrapper {
+  background-color: #FFFFFF;
+  border-radius: var(--sillage-radius-sm);
+  overflow: hidden;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  position: relative;
+  border: 1px solid rgba(92, 107, 94, 0.15);
+}
+
+.sillage-card-img-wrapper img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  transition: transform 0.4s ease;
+}
+
+.sillage-launch-card:hover .sillage-card-img-wrapper img {
+  transform: scale(1.05);
+}
+
+.sillage-card-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--sillage-darkgreen-deep);
+}
+
+.sillage-perfume-name {
+  font-family: var(--sillage-font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1F2820;
+  margin-bottom: 2px;
+}
+
+.sillage-perfume-meta {
+  font-size: 0.95rem;
+  color: #2F3B30;
+  margin: 0;
+}
+
+.sillage-perfume-pyramid-preview {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(92, 107, 94, 0.25);
+  font-size: 0.88rem;
+  color: #384639;
+  text-align: left;
+}
+
+.sillage-btn-explore {
+  margin-top: 14px;
+  background: var(--sillage-champagne);
+  color: var(--sillage-darkgreen-deep);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 18px;
+  border-radius: var(--sillage-radius-pill);
+  text-align: center;
+  transition: var(--sillage-transition);
+  border: none;
+}
+
+.sillage-btn-explore:hover {
+  background: var(--sillage-champagne-light);
+  transform: scale(1.02);
+  color: var(--sillage-darkgreen);
+}
+
+/* ========================================================
+   Página de Resenhas (RF02 / Wireframe 3)
+   ======================================================== */
+.sillage-reviews-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.sillage-review-wide-card {
+  background: var(--sillage-darkgreen);
+  border: 2px solid var(--sillage-champagne);
+  border-radius: var(--sillage-radius-md);
+  padding: 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 30px;
+  box-shadow: var(--sillage-shadow-md);
+  transition: var(--sillage-transition);
+}
+
+.sillage-review-wide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sillage-shadow-lg);
+  border-color: #FFF;
+}
+
+.sillage-review-thumb {
+  width: 220px;
+  min-width: 220px;
+  background: #FFFFFF;
+  border-radius: var(--sillage-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  border: 1px solid rgba(242, 220, 177, 0.5);
+}
+
+.sillage-review-thumb img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+}
+
+.sillage-review-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--sillage-offwhite);
+}
+
+.sillage-review-title {
+  font-family: var(--sillage-font-serif);
+  font-size: 1.8rem;
+  color: var(--sillage-champagne);
+  margin-bottom: 8px;
+}
+
+.sillage-review-info-line {
+  font-size: 1.05rem;
+  color: var(--sillage-offwhite);
+  margin-bottom: 4px;
+}
+
+.sillage-review-info-line strong {
+  color: var(--sillage-champagne-light);
+}
+
+.sillage-review-pyramid-block {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.15);
+  border-left: 3px solid var(--sillage-lilac);
+  border-radius: 4px;
+  font-size: 0.95rem;
+}
+
+/* ========================================================
+   Página Sobre o Grupo (RF03 / Wireframe 4)
+   ======================================================== */
+.sillage-about-outer-frame {
+  max-width: 1050px;
+  margin: 45px auto;
+  padding: 20px;
+}
+
+.sillage-about-box {
+  background: var(--sillage-darkgreen);
+  border-radius: var(--sillage-radius-lg);
+  padding: 30px;
+  box-shadow: var(--sillage-shadow-lg);
+  border: 2px solid var(--sillage-champagne);
+}
+
+.sillage-about-inner-paper {
+  background-color: var(--sillage-offwhite);
+  border-radius: var(--sillage-radius-md);
+  padding: 50px 45px;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.sillage-about-hero-title {
+  font-family: var(--sillage-font-serif);
+  font-size: 3rem;
+  font-weight: 500;
+  text-align: center;
+  color: var(--sillage-darkgreen);
+  margin-bottom: 30px;
+}
+
+.sillage-creators-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sillage-lilac-light);
+  color: var(--sillage-darkgreen-deep);
+  padding: 8px 20px;
+  border-radius: var(--sillage-radius-pill);
+  font-weight: 600;
+  margin-bottom: 25px;
+  border: 1px solid var(--sillage-lilac);
+}
+
+/* ========================================================
+   Login Administrativo (RF05 / Wireframe 5)
+   ======================================================== */
+.sillage-login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 160px);
+  padding: 40px 20px;
+}
+
+.sillage-login-card-lilac {
+  background: var(--sillage-lilac);
+  border-radius: var(--sillage-radius-lg);
+  padding: 45px 35px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: var(--sillage-shadow-lg);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  text-align: center;
+}
+
+.sillage-login-card-lilac h2 {
+  font-family: var(--sillage-font-serif);
+  font-size: 2.2rem;
+  color: #2F3830;
+  margin-bottom: 25px;
+}
+
+.sillage-login-input {
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: var(--sillage-radius-pill);
+  border: 2px solid #5C6B5E;
+  background-color: rgba(255, 255, 255, 0.4);
+  color: #2F3830;
+  font-size: 1rem;
+  margin-bottom: 16px;
+  outline: none;
+  transition: var(--sillage-transition);
+}
+
+.sillage-login-input:focus {
+  background-color: #FFFFFF;
+  border-color: var(--sillage-darkgreen-deep);
+  box-shadow: 0 0 0 3px rgba(92, 107, 94, 0.2);
+}
+
+.sillage-login-input::placeholder {
+  color: #6C7A6D;
+}
+
+.sillage-btn-login {
+  background-color: #2094B4;
+  color: #FFFFFF;
+  border: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 10px 40px;
+  border-radius: var(--sillage-radius-pill);
+  box-shadow: 0 4px 12px rgba(32, 148, 180, 0.35);
+  transition: var(--sillage-transition);
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.sillage-btn-login:hover {
+  background-color: #177C98;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(32, 148, 180, 0.45);
+}
+
+.sillage-login-forgot {
+  display: block;
+  font-size: 0.85rem;
+  color: #556156;
+  margin-bottom: 16px;
+  text-decoration: underline;
+}
+
+/* ========================================================
+   Página do Post Individual (RF04)
+   ======================================================== */
+.sillage-post-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.sillage-post-card {
+  background: #FFFFFF;
+  border-radius: var(--sillage-radius-lg);
+  padding: 45px;
+  box-shadow: var(--sillage-shadow-md);
+  border: 1px solid rgba(159, 175, 144, 0.3);
+}
+
+.sillage-post-hero-img {
+  width: 100%;
+  max-height: 440px;
+  object-fit: contain;
+  background-color: var(--sillage-offwhite);
+  border-radius: var(--sillage-radius-md);
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(92, 107, 94, 0.15);
+}
+
+.sillage-category-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: var(--sillage-radius-pill);
+  background-color: var(--sillage-lilac);
+  color: #2F3830;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.sillage-pyramid-box {
+  background: rgba(159, 175, 144, 0.15);
+  border: 1px solid var(--sillage-sage);
+  border-radius: var(--sillage-radius-md);
+  padding: 24px;
+  margin: 30px 0;
+}
+
+.sillage-pyramid-level {
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  background: #FFFFFF;
+  border-left: 4px solid var(--sillage-sage);
+}
+
+.sillage-pyramid-level.topo { border-left-color: var(--sillage-champagne-dark); }
+.sillage-pyramid-level.corpo { border-left-color: var(--sillage-lilac); }
+.sillage-pyramid-level.fundo { border-left-color: var(--sillage-darkgreen); }
+
+.sillage-post-content {
+  font-size: 1.12rem;
+  line-height: 1.8;
+  color: #2F3830;
+}
+
+.sillage-post-content p {
+  margin-bottom: 1.4rem;
+}
+
+.sillage-references-box {
+  margin-top: 40px;
+  padding: 20px;
+  background: var(--sillage-offwhite);
+  border-radius: var(--sillage-radius-sm);
+  border-left: 4px solid var(--sillage-darkgreen);
+  font-size: 0.95rem;
+  color: #556257;
+}
+
+/* ========================================================
+   Painel Administrativo (RF05 & RF06)
+   ======================================================== */
+.sillage-admin-header {
+  background: var(--sillage-darkgreen);
+  color: #FFF;
+  padding: 15px 30px;
+}
+
+.sillage-admin-card {
+  background: #FFFFFF;
+  border-radius: var(--sillage-radius-md);
+  box-shadow: var(--sillage-shadow-sm);
+  border: 1px solid rgba(159, 175, 144, 0.25);
+  padding: 25px;
+  margin-bottom: 25px;
+}
+
+.sillage-btn-primary {
+  background-color: var(--sillage-darkgreen);
+  color: #FFFFFF;
+  border: none;
+  padding: 10px 22px;
+  border-radius: var(--sillage-radius-pill);
+  font-weight: 600;
+  transition: var(--sillage-transition);
+}
+
+.sillage-btn-primary:hover {
+  background-color: var(--sillage-darkgreen-deep);
+  color: var(--sillage-champagne-light);
+  transform: translateY(-2px);
+}
+
+.sillage-btn-secondary {
+  background-color: var(--sillage-sage);
+  color: var(--sillage-darkgreen-deep);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--sillage-radius-pill);
+  font-weight: 600;
+  transition: var(--sillage-transition);
+}
+
+.sillage-btn-secondary:hover {
+  background-color: var(--sillage-sage-dark);
+  color: #FFF;
+}
+
+/* ========================================================
+   Banner de Conformidade LGPD (Lei 13.709/2018)
+   ======================================================== */
+.sillage-lgpd-banner {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  max-width: 960px;
+  margin: 0 auto;
+  background: rgba(92, 107, 94, 0.96);
+  backdrop-filter: blur(8px);
+  color: var(--sillage-offwhite);
+  padding: 18px 25px;
+  border-radius: var(--sillage-radius-md);
+  box-shadow: var(--sillage-shadow-lg);
+  border: 1px solid var(--sillage-champagne);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  animation: slideUpLGPD 0.4s ease-out;
+}
+
+@keyframes slideUpLGPD {
+  from { transform: translateY(100px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.sillage-lgpd-text {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  margin: 0;
+  flex: 1;
+}
+
+.sillage-lgpd-text a {
+  color: var(--sillage-champagne);
+  text-decoration: underline;
+}
+
+.sillage-lgpd-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sillage-btn-lgpd-accept {
+  background: var(--sillage-champagne);
+  color: var(--sillage-darkgreen-deep);
+  border: none;
+  padding: 8px 18px;
+  border-radius: var(--sillage-radius-pill);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--sillage-transition);
+}
+
+.sillage-btn-lgpd-accept:hover {
+  background: #FFF;
+  transform: scale(1.04);
+}
+
+.sillage-btn-lgpd-settings {
+  background: transparent;
+  color: var(--sillage-champagne-light);
+  border: 1px solid var(--sillage-champagne);
+  padding: 7px 16px;
+  border-radius: var(--sillage-radius-pill);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--sillage-transition);
+}
+
+.sillage-btn-lgpd-settings:hover {
+  background: rgba(242, 220, 177, 0.2);
+}
+
+/* ========================================================
+   Rodapé Fixo (Footer Exigido)
+   ======================================================== */
+.sillage-footer {
+  background-color: var(--sillage-darkgreen);
+  color: var(--sillage-champagne);
+  padding: 22px 30px;
+  text-align: center;
+  font-size: 0.98rem;
+  border-top: 2px solid var(--sillage-champagne);
+  margin-top: auto;
+}
+
+.sillage-footer p {
+  margin: 0;
+  font-family: var(--sillage-font-serif);
+  letter-spacing: 0.4px;
+}
+
+.sillage-footer-subline {
+  font-family: var(--sillage-font-sans);
+  font-size: 0.82rem;
+  color: var(--sillage-sage-light);
+  margin-top: 6px !important;
+}
+
+.sillage-footer-subline a {
+  color: var(--sillage-champagne);
+}
+
+/* ========================================================
+   Responsividade (RNF03)
+   ======================================================== */
+@media (max-width: 991px) {
+  .sillage-main-wrapper {
+    flex-direction: column;
+  }
+  .sillage-sidebar {
+    width: 100%;
+    min-width: 100%;
+    border-right: none;
+    border-bottom: 2px solid var(--sillage-sage);
+    padding: 25px 20px;
+  }
+  .sillage-botanical-divider {
+    display: none;
+  }
+  .sillage-content-area {
+    padding: 30px 20px;
+  }
+  .sillage-review-wide-card {
+    flex-direction: column;
+  }
+  .sillage-review-thumb {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .sillage-header .container-fluid {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  .sillage-page-title-badge {
+    margin-left: 0;
+    padding-left: 0;
+    border-left: none;
+  }
+  .sillage-lgpd-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+  .sillage-lgpd-buttons {
+    width: 100%;
+    justify-content: center;
+  }
+}

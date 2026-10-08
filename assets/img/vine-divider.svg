@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 800" width="40" height="800" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="vine-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5C6B5E"/>
+      <stop offset="50%" stop-color="#9FAF90"/>
+      <stop offset="100%" stop-color="#5C6B5E"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Haste principal vertical ondulada -->
+  <path d="M 20 0 
+           Q 26 50 18 100 
+           Q 12 150 22 200 
+           Q 28 250 16 300 
+           Q 10 350 22 400 
+           Q 28 450 18 500 
+           Q 12 550 22 600 
+           Q 28 650 18 700 
+           Q 12 750 20 800" 
+        stroke="url(#vine-grad)" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Folhas e ramos botânicos alternados estilizados -->
+  <!-- Segmento 1 -->
+  <path d="M 22 40 C 30 35 34 42 28 48 C 24 50 21 44 22 40 Z" fill="#5C6B5E"/>
+  <path d="M 18 80 C 8 75 6 85 12 90 C 16 92 19 86 18 80 Z" fill="#9FAF90"/>
+  <circle cx="32" cy="55" r="2" fill="#C8A2C8"/>
+  
+  <!-- Segmento 2 -->
+  <path d="M 18 130 C 8 122 7 132 14 138 C 17 140 19 135 18 130 Z" fill="#5C6B5E"/>
+  <path d="M 22 170 C 32 165 35 174 27 180 C 23 182 20 176 22 170 Z" fill="#9FAF90"/>
+  <circle cx="8" cy="148" r="2.2" fill="#F2DCB1"/>
+  
+  <!-- Segmento 3 -->
+  <path d="M 22 230 C 32 224 35 233 27 240 C 23 242 20 236 22 230 Z" fill="#5C6B5E"/>
+  <path d="M 18 280 C 7 274 6 284 13 290 C 17 292 19 286 18 280 Z" fill="#9FAF90"/>
+  <circle cx="33" cy="245" r="2" fill="#C8A2C8"/>
+  
+  <!-- Segmento 4 -->
+  <path d="M 18 330 C 8 322 7 332 14 338 C 17 340 19 335 18 330 Z" fill="#5C6B5E"/>
+  <path d="M 22 370 C 32 365 35 374 27 380 C 23 382 20 376 22 370 Z" fill="#9FAF90"/>
+  <circle cx="9" cy="348" r="2" fill="#F2DCB1"/>
+
+  <!-- Segmento 5 -->
+  <path d="M 22 430 C 32 424 35 433 27 440 C 23 442 20 436 22 430 Z" fill="#5C6B5E"/>
+  <path d="M 18 480 C 7 474 6 484 13 490 C 17 492 19 486 18 480 Z" fill="#9FAF90"/>
+  <circle cx="33" cy="445" r="2" fill="#C8A2C8"/>
+
+  <!-- Segmento 6 -->
+  <path d="M 18 530 C 8 522 7 532 14 538 C 17 540 19 535 18 530 Z" fill="#5C6B5E"/>
+  <path d="M 22 570 C 32 565 35 574 27 580 C 23 582 20 576 22 570 Z" fill="#9FAF90"/>
+  <circle cx="9" cy="548" r="2.2" fill="#F2DCB1"/>
+
+  <!-- Segmento 7 -->
+  <path d="M 22 630 C 32 624 35 633 27 640 C 23 642 20 636 22 630 Z" fill="#5C6B5E"/>
+  <path d="M 18 680 C 7 674 6 684 13 690 C 17 692 19 686 18 680 Z" fill="#9FAF90"/>
+  <circle cx="33" cy="645" r="2" fill="#C8A2C8"/>
+
+  <!-- Segmento 8 -->
+  <path d="M 18 730 C 8 722 7 732 14 738 C 17 740 19 735 18 730 Z" fill="#5C6B5E"/>
+  <path d="M 22 770 C 32 765 35 774 27 780 C 23 782 20 776 22 770 Z" fill="#9FAF90"/>
+  <circle cx="8" cy="745" r="2" fill="#F2DCB1"/>
+</svg>
