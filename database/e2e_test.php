@@ -50,15 +50,20 @@ echo "   INICIANDO BATERIA DE TESTES DE INTEGRAÇÃO SILLAGE\n";
 echo "========================================================\n\n";
 
 // 1. Testar Páginas Públicas
+$pdo = new PDO('mysql:host=127.0.0.1;dbname=blog_perfumaria;charset=utf8mb4', 'root', '');
+$idNoticia = $pdo->query("SELECT id FROM posts WHERE categoria = 'noticias' LIMIT 1")->fetchColumn() ?: 2;
+$idResenha = $pdo->query("SELECT id FROM posts WHERE categoria = 'resenhas' LIMIT 1")->fetchColumn() ?: 4;
+$idCuriosidade = $pdo->query("SELECT id FROM posts WHERE categoria = 'curiosidades' LIMIT 1")->fetchColumn() ?: 18;
+
 $publicPages = [
     '/' => 'Página Inicial (index.php)',
     '/index.php' => 'Página Inicial direta',
     '/resenhas.php' => 'Página de Resenhas',
     '/sobre.php' => 'Página Sobre o Grupo',
     '/privacidade.php' => 'Página de Privacidade / LGPD',
-    '/post.php?id=1' => 'Post de Notícia / Lançamento',
-    '/post.php?id=4' => 'Post de Resenha',
-    '/post.php?id=7' => 'Post de Curiosidade / Sumário',
+    '/post.php?id=' . $idNoticia => 'Post de Notícia / Lançamento',
+    '/post.php?id=' . $idResenha => 'Post de Resenha',
+    '/post.php?id=' . $idCuriosidade => 'Post de Curiosidade / Sumário',
     '/login.php' => 'Página de Login ADM'
 ];
 
@@ -83,33 +88,23 @@ if (strpos($unauthAdmin['body'], 'Bem vindo') !== false || strpos($unauthAdmin['
     echo "[AVISO] Verificar redirecionamento de /admin/index.php sem sessão.\n";
 }
 
-// 3. Teste de Login ADM (RF05, RNF01)
-echo "\n--- Testando Autenticação ADM (RF05, RNF01) ---\n";
+// 3. Teste de Login Super ADM (Kauã Freitas & Yasmin Cristiny - admin@sillage.com)
+echo "\n--- Testando Autenticação Super ADM (RF05, RNF01) ---\n";
 $loginPage = makeRequest($baseUrl . '/login.php', 'GET', [], $cookieFile);
 $csrf = extractCsrf($loginPage['body']);
 echo "CSRF Token obtido: " . substr($csrf, 0, 10) . "...\n";
 
 $loginAction = makeRequest($baseUrl . '/login.php', 'POST', [
-    'email' => 'admin@blog.com',
+    'email' => 'admin@sillage.com',
     'senha' => 'admin123',
     'csrf_token' => $csrf
 ], $cookieFile);
 
 if (strpos($loginAction['body'], 'Painel de Publicações') !== false || strpos($loginAction['body'], 'Gestão Editorial') !== false) {
-    echo "[OK] Login ADM realizado com sucesso para admin@blog.com!\n";
+    echo "[OK] Login Super ADM realizado com sucesso para Kauã Freitas & Yasmin Cristiny (admin@sillage.com)!\n";
 } else {
-    echo "[INFO] Testando com admin@sillage.com...\n";
-    $loginAction2 = makeRequest($baseUrl . '/login.php', 'POST', [
-        'email' => 'admin@sillage.com',
-        'senha' => 'admin123',
-        'csrf_token' => $csrf
-    ], $cookieFile);
-    if (strpos($loginAction2['body'], 'Painel de Publicações') !== false || strpos($loginAction2['body'], 'Gestão Editorial') !== false) {
-        echo "[OK] Login ADM realizado com sucesso para admin@sillage.com!\n";
-    } else {
-        echo "[FALHA] Não foi possível autenticar o administrador.\n";
-        $allOk = false;
-    }
+    echo "[FALHA] Não foi possível autenticar o administrador master admin@sillage.com.\n";
+    $allOk = false;
 }
 
 // 4. Teste de Criação de Post (RF06)
@@ -205,8 +200,21 @@ if (strpos($usersList['body'], $testAdmEmail) !== false) {
     }
     if (file_exists($cookieNewAdm)) unlink($cookieNewAdm);
 
-    // Limpar administrador de teste no banco
-    $pdo = new PDO('mysql:host=127.0.0.1;dbname=blog_perfumaria;charset=utf8mb4', 'root', '');
+    // Testar exclusão do novo administrador pelo Super ADM (RF05)
+    preg_match('/' . preg_quote($testAdmEmail, '/') . '.*?excluir_adm\.php\?id=(\d+)&csrf_token=([^"\']+)/s', $usersList['body'], $delMatch);
+    if (!empty($delMatch)) {
+        $delAdmId = $delMatch[1];
+        $delAdmToken = $delMatch[2];
+        $delResult = makeRequest($baseUrl . "/admin/excluir_adm.php?id=$delAdmId&csrf_token=$delAdmToken", 'GET', [], $cookieFile);
+        $checkAfterDel = makeRequest($baseUrl . '/admin/usuarios.php', 'GET', [], $cookieFile);
+        if (!preg_match('/<td[^>]*>\s*<span class="text-muted">\s*' . preg_quote($testAdmEmail, '/') . '\s*<\/span>/', $checkAfterDel['body'])) {
+            echo "[OK] Novo administrador excluído com sucesso via excluir_adm.php pelo Super ADM!\n";
+        } else {
+            echo "[AVISO] Administrador ainda listado após exclusão via painel.\n";
+        }
+    }
+
+    // Limpeza de segurança no banco
     $pdo->prepare("DELETE FROM usuarios_adm WHERE email = ?")->execute([$testAdmEmail]);
 } else {
     echo "[FALHA] Novo administrador não listado em usuarios.php.\n";

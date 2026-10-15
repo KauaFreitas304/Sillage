@@ -76,7 +76,7 @@ include __DIR__ . '/header.php';
                 <?php endif; ?>
               </div>
 
-              <div class="d-flex justify-content-between align-items-center mt-3 pt-2">
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-3 pt-2 sillage-review-footer">
                 <span class="small" style="color: var(--sillage-sage-light);">
                   <i class="bi bi-calendar3 me-1"></i> Publicado em: <?= date('d/m/Y', strtotime($resenha['data_criacao'])) ?>
                 </span>

@@ -12,7 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Tratamento de confirmações de exclusão segura
     initDeleteConfirmations();
+
+    // Inicialização da Sidebar e Accordion no Mobile
+    initMobileSidebar();
 });
+
+/**
+ * Controle de expansão/recolhimento da Sidebar no Mobile
+ */
+function initMobileSidebar() {
+    const collapseElem = document.getElementById('sillageSidebarCollapse');
+    const chevron = document.querySelector('.sillage-sidebar-collapse-btn i');
+    if (collapseElem && chevron) {
+        collapseElem.addEventListener('show.bs.collapse', () => {
+            chevron.className = 'bi bi-chevron-up';
+        });
+        collapseElem.addEventListener('hide.bs.collapse', () => {
+            chevron.className = 'bi bi-chevron-down';
+        });
+    }
+}
 
 /**
  * Carrossel de Lançamentos (Suporta rolagem suave ou setas de navegação)

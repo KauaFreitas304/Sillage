@@ -47,9 +47,11 @@ $adminPageTitle = $adminPageTitle ?? 'Painel Administrativo — Sillage';
         <a href="criar_post.php" class="btn btn-sm rounded-pill px-3" style="background: var(--sillage-champagne); color: var(--sillage-darkgreen); font-weight: 600;">
           <i class="bi bi-plus-circle me-1"></i> Novo Post
         </a>
+        <?php if (is_super_admin()): ?>
         <a href="cadastrar_adm.php" class="btn btn-sm btn-outline-light rounded-pill px-3">
           <i class="bi bi-person-plus me-1"></i> Cadastrar ADM
         </a>
+        <?php endif; ?>
         <a href="usuarios.php" class="btn btn-sm btn-outline-light rounded-pill px-3">
           <i class="bi bi-people me-1"></i> Usuários ADM
         </a>
@@ -61,6 +63,11 @@ $adminPageTitle = $adminPageTitle ?? 'Painel Administrativo — Sillage';
         
         <span class="text-white-50 small d-none d-lg-inline me-2">
           Olá, <strong class="text-white"><?= htmlspecialchars($currentUser['nome']) ?></strong>
+          <?php if (is_super_admin()): ?>
+            <span class="badge rounded-pill bg-warning text-dark ms-1 small"><i class="bi bi-shield-fill-check me-1"></i>Super ADM</span>
+          <?php else: ?>
+            <span class="badge rounded-pill bg-light text-dark ms-1 small">ADM</span>
+          <?php endif; ?>
         </span>
         
         <a href="../logout.php" class="btn btn-sm btn-danger rounded-pill px-3" title="Encerrar Sessão Segura">

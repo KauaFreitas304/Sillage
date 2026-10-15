@@ -58,9 +58,11 @@ $totalAdms = $pdo->query("SELECT COUNT(*) FROM usuarios_adm")->fetchColumn();
       <a href="criar_post.php" class="btn btn-primary rounded-pill px-4 shadow-sm" style="background-color: var(--sillage-darkgreen); border-color: var(--sillage-darkgreen);">
         <i class="bi bi-plus-lg me-1"></i> Criar Nova Publicação
       </a>
+      <?php if (is_super_admin()): ?>
       <a href="cadastrar_adm.php" class="btn btn-outline-secondary rounded-pill px-3">
         <i class="bi bi-person-plus-fill me-1"></i> Novo ADM
       </a>
+      <?php endif; ?>
     </div>
   </div>
 

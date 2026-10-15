@@ -25,25 +25,30 @@ include __DIR__ . '/header.php';
   
   <!-- Barra Lateral (Sidebar / Sumário Dinâmico) Conforme Mockup 2 -->
   <aside class="sillage-sidebar" aria-label="Sumário de Tópicos e Curiosidades">
-    <div class="sillage-sidebar-title">
-      <i class="bi bi-book-half me-2"></i> Sumário / Tópicos
+    <div class="sillage-sidebar-title d-flex justify-content-between align-items-center">
+      <span><i class="bi bi-book-half me-2"></i> Sumário / Tópicos</span>
+      <button class="btn btn-sm sillage-sidebar-collapse-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sillageSidebarCollapse" aria-expanded="true" aria-controls="sillageSidebarCollapse" aria-label="Recolher ou Expandir Tópicos">
+        <i class="bi bi-chevron-down"></i>
+      </button>
     </div>
     
-    <nav>
-      <ul class="sillage-sidebar-list">
-        <?php if (!empty($topicosSidebar)): ?>
-          <?php foreach ($topicosSidebar as $index => $topico): ?>
-            <li class="sillage-sidebar-item">
-              <a href="post.php?id=<?= (int)$topico['id'] ?>" title="Ler: <?= htmlspecialchars($topico['titulo']) ?>">
-                <?= htmlspecialchars($topico['titulo']) ?>
-              </a>
-            </li>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <li class="text-muted small">Nenhum tópico cadastrado no momento.</li>
-        <?php endif; ?>
-      </ul>
-    </nav>
+    <div class="collapse show d-lg-block" id="sillageSidebarCollapse">
+      <nav>
+        <ul class="sillage-sidebar-list">
+          <?php if (!empty($topicosSidebar)): ?>
+            <?php foreach ($topicosSidebar as $index => $topico): ?>
+              <li class="sillage-sidebar-item">
+                <a href="post.php?id=<?= (int)$topico['id'] ?>" title="Ler: <?= htmlspecialchars($topico['titulo']) ?>">
+                  <?= htmlspecialchars($topico['titulo']) ?>
+                </a>
+              </li>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <li class="text-muted small">Nenhum tópico cadastrado no momento.</li>
+          <?php endif; ?>
+        </ul>
+      </nav>
+    </div>
 
     <!-- Divisor Botânico Floral Exclusivo do Wireframe 2 -->
     <div class="sillage-botanical-divider" aria-hidden="true"></div>

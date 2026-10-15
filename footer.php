@@ -34,6 +34,12 @@
     </div>
   </div>
 
+  <!-- Botão Flutuante de Acesso Rápido ao Sumário no Mobile (Aparece apenas em telas pequenas) -->
+  <button type="button" class="sillage-floating-sidebar-btn d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#sillageSidebarOffcanvas" aria-controls="sillageSidebarOffcanvas" aria-label="Abrir Sumário e Tópicos" title="Abrir Sumário de Curiosidades">
+    <i class="bi bi-book-half"></i>
+    <span>Sumário</span>
+  </button>
+
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="assets/js/main.js"></script>

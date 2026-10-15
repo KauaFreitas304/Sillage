@@ -1,12 +1,15 @@
 <?php
 /**
  * Sillage - Cadastro de Novos Administradores (RF05)
- * Restrito exclusivamente a administradores já autenticados
+ * Restrito exclusivamente a Kauã Freitas & Yasmin Cristiny (admin@sillage.com)
  * Desenvolvido por Kauã Freitas e Yasmin Cristiny
  */
 
-$adminPageTitle = 'Cadastrar Novo Administrador — Sillage ADM';
-require_once __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../config/auth.php';
+
+// Bloqueio rigoroso de Super Administrador: Apenas Kauã Freitas & Yasmin Cristiny (admin@sillage.com)
+require_super_admin('usuarios.php');
 
 $pdo = getDBConnection();
 $error = '';
@@ -41,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Criptografia com Bcrypt (RNF01)
                 $hashedPassword = password_hash($senha, PASSWORD_BCRYPT);
 
-                $stmtInsert = $pdo->prepare("INSERT INTO usuarios_adm (nome, email, senha, data_cadastro) VALUES (:nome, :email, :senha, NOW())");
+                $stmtInsert = $pdo->prepare("INSERT INTO usuarios_adm (nome, email, senha, tipo, data_cadastro) VALUES (:nome, :email, :senha, 'admin', NOW())");
                 $stmtInsert->execute([
                     ':nome'  => $nome,
                     ':email' => $email,
@@ -57,6 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $csrfToken = generate_csrf_token();
+$adminPageTitle = 'Cadastrar Novo Administrador — Sillage ADM';
+require_once __DIR__ . '/admin_header.php';
 ?>
 
 <main class="container py-4">
@@ -69,11 +74,21 @@ $csrfToken = generate_csrf_token();
           <h1 class="h3 fw-bold mb-1" style="color: var(--sillage-darkgreen);">
             Cadastrar Novo Administrador
           </h1>
-          <p class="text-muted small mb-0">Disponível exclusivamente para administradores autenticados (RF05).</p>
+          <p class="text-muted small mb-0">Disponível exclusivamente para a conta principal de Super Administrador (RF05).</p>
         </div>
         <a href="usuarios.php" class="btn btn-outline-secondary rounded-pill px-3">
           <i class="bi bi-people me-1"></i> Lista de ADMs
         </a>
+      </div>
+
+      <div class="alert alert-light border shadow-sm rounded-4 mb-4 d-flex align-items-center gap-3">
+        <div class="bg-warning text-dark p-2 rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-shield-lock-fill fs-5"></i>
+        </div>
+        <div class="small">
+          <strong class="text-dark">Ação Exclusiva de Super Administrador:</strong>
+          <div class="text-muted">Apenas o login <strong>Kauã Freitas & Yasmin Cristiny</strong> (<code>admin@sillage.com</code>) possui privilégios para cadastrar e excluir administradores.</div>
+        </div>
       </div>
 
       <?php if (!empty($error)): ?>
