@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<div id="results"></div>
+<script>
+const pages = [
+  'index.php',
+  'resenhas.php',
+  'sobre.php',
+  'post.php?id=3',
+  'login.php',
+  'privacidade.php'
+];
+
+async function testPage(url) {
+  return new Promise((resolve) => {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '375px';
+    iframe.style.height = '667px';
+    iframe.style.border = '1px solid black';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+    
+    iframe.onload = () => {
+      setTimeout(() => {
+        try {
+          const doc = iframe.contentDocument;
+          const win = iframe.contentWindow;
+          const scrollW = doc.documentElement.scrollWidth;
+          const innerW = win.innerWidth;
+          let issues = [];
+          if (scrollW > innerW) {
+            issues.push(`OVERFLOW: scrollWidth=${scrollW} > innerWidth=${innerW}`);
+          }
+          doc.querySelectorAll('*').forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.right > innerW + 1) {
+              issues.push(`Over-right: <${el.tagName.toLowerCase()} class="${el.className}" id="${el.id}"> right=${r.right.toFixed(1)} w=${r.width.toFixed(1)}`);
+            }
+          });
+          resolve({ url, scrollW, innerW, issues: issues.slice(0, 10) });
+        } catch(e) {
+          resolve({ url, error: e.message });
+        }
+      }, 800);
+    };
+  });
+}
+
+(async () => {
+  const resDiv = document.getElementById('results');
+  let text = "";
+  for (const p of pages) {
+    const r = await testPage(p);
+    text += `=== PAGE: ${r.url} ===\n`;
+    text += `scrollWidth: ${r.scrollW}, innerWidth: ${r.innerW}\n`;
+    if (r.issues && r.issues.length) {
+      text += r.issues.join('\n') + '\n';
+    } else {
+      text += "NO OVERFLOW!\n";
+    }
+    text += "\n";
+  }
+  const pre = document.createElement('pre');
+  pre.id = "final_output";
+  pre.textContent = text;
+  document.body.appendChild(pre);
+})();
+</script>
+</body>
+</html>

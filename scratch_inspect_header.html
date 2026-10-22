@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px; border: none;"></iframe>
+<pre id="output"></pre>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      const header = doc.querySelector('.sillage-header');
+      const brand = doc.querySelector('.sillage-header-brand-wrap');
+      const badge = doc.querySelector('.sillage-page-title-badge');
+      const actions = doc.querySelector('.sillage-mobile-actions');
+      
+      let out = "";
+      out += `header: w=${header.offsetWidth}, scrollW=${header.scrollWidth}\n`;
+      out += `brand: w=${brand.offsetWidth}, right=${brand.getBoundingClientRect().right}\n`;
+      out += `badge: w=${badge ? badge.offsetWidth : 'null'}, display=${win.getComputedStyle(badge).display}\n`;
+      out += `actions: w=${actions.offsetWidth}, left=${actions.getBoundingClientRect().left}, right=${actions.getBoundingClientRect().right}\n`;
+      actions.querySelectorAll('*').forEach(btn => {
+        out += `  btn: <${btn.tagName} class="${btn.className}"> rect=${JSON.stringify(btn.getBoundingClientRect())}\n`;
+      });
+      document.getElementById('output').textContent = out;
+    } catch(e) {
+      document.getElementById('output').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+</body>
+</html>

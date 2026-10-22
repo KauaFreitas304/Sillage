@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px; border: none;"></iframe>
+<pre id="output">Viewport: innerWidth=375, clientWidth=360, scrollWidth=440
+OVERFLOW DETECTED: scrollWidth (440) &gt; innerWidth (375)
+Element overflowing: &lt;html class="" id=""&gt; rect.right=360.0, scrollWidth=440, offsetWidth=360
+Element overflowing: &lt;body class="" id=""&gt; rect.right=360.0, scrollWidth=440, offsetWidth=360
+Element overflowing: &lt;nav class="d-flex align-items-center gap-2 sillage-nav-container my-1 my-md-0" id=""&gt; rect.right=344.0, scrollWidth=378, offsetWidth=328
+Element overflowing: &lt;a class="sillage-adm-lock-btn" id="nav-btn-login-adm"&gt; rect.right=393.8, scrollWidth=34, offsetWidth=36
+Element overflowing: &lt;i class="bi bi-lock-fill" id=""&gt; rect.right=383.8, scrollWidth=16, offsetWidth=16
+Element overflowing: &lt;main class="sillage-main-wrapper" id="main-content"&gt; rect.right=360.0, scrollWidth=440, offsetWidth=360
+Element overflowing: &lt;section class="sillage-content-area" id=""&gt; rect.right=360.0, scrollWidth=440, offsetWidth=360
+Element overflowing: &lt;div class="sillage-cards-grid" id="launches-container"&gt; rect.right=342.0, scrollWidth=422, offsetWidth=324
+Element overflowing: &lt;article class="sillage-launch-card" id="post-card-3"&gt; rect.right=440.3, scrollWidth=420, offsetWidth=422
+Element overflowing: &lt;div class="sillage-card-img-wrapper" id=""&gt; rect.right=423.3, scrollWidth=386, offsetWidth=388
+Element overflowing: &lt;div class="sillage-card-body" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;h2 class="sillage-perfume-name" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;p class="sillage-perfume-meta" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;p class="sillage-perfume-meta" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="sillage-perfume-pyramid-preview" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="mt-1 small text-muted" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;a class="sillage-btn-explore mt-3" id="btn-ler-3"&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;article class="sillage-launch-card" id="post-card-2"&gt; rect.right=440.3, scrollWidth=420, offsetWidth=422
+Element overflowing: &lt;div class="sillage-card-img-wrapper" id=""&gt; rect.right=423.3, scrollWidth=386, offsetWidth=388
+Element overflowing: &lt;div class="sillage-card-body" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;h2 class="sillage-perfume-name" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;p class="sillage-perfume-meta" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;p class="sillage-perfume-meta" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="sillage-perfume-pyramid-preview" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="text-truncate small" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;div class="mt-1 small text-muted" id=""&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+Element overflowing: &lt;a class="sillage-btn-explore mt-3" id="btn-ler-2"&gt; rect.right=423.3, scrollWidth=388, offsetWidth=388
+</pre>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      const scrollW = doc.documentElement.scrollWidth;
+      const clientW = doc.documentElement.clientWidth;
+      const innerW = win.innerWidth;
+      let out = `Viewport: innerWidth=${innerW}, clientWidth=${clientW}, scrollWidth=${scrollW}\n`;
+      if (scrollW > innerW) {
+        out += `OVERFLOW DETECTED: scrollWidth (${scrollW}) > innerWidth (${innerW})\n`;
+      }
+      const all = doc.querySelectorAll('*');
+      for (const el of all) {
+        const rect = el.getBoundingClientRect();
+        if (rect.right > innerW + 1 || el.scrollWidth > innerW + 1) {
+          out += `Element overflowing: <${el.tagName.toLowerCase()} class="${el.className}" id="${el.id}"> rect.right=${rect.right.toFixed(1)}, scrollWidth=${el.scrollWidth}, offsetWidth=${el.offsetWidth}\n`;
+        }
+      }
+      document.getElementById('output').textContent = out;
+      console.log(out);
+    } catch(e) {
+      document.getElementById('output').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+
+
+</body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px;"></iframe>
+<div id="debug"></div>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      const actions = doc.querySelector('.sillage-mobile-actions');
+      let out = "";
+      out += `actions.children.length: ${actions.children.length}\n`;
+      for (let i = 0; i < actions.children.length; i++) {
+        const c = actions.children[i];
+        const cs = win.getComputedStyle(c);
+        out += `Child ${i}: tag=${c.tagName}, class=${c.className}, rect=${JSON.stringify(c.getBoundingClientRect())}, display=${cs.display}, opacity=${cs.opacity}, visibility=${cs.visibility}, bg=${cs.backgroundColor}\n`;
+      }
+      document.getElementById('debug').textContent = out;
+    } catch(e) {
+      document.getElementById('debug').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+</body>
+</html>

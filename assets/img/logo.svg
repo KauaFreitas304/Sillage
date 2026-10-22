@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80">
   <defs>
     <linearGradient id="sillage-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#5C6B5E"/>
-      <stop offset="60%" stop-color="#3A473C"/>
-      <stop offset="100%" stop-color="#5C6B5E"/>
+      <stop offset="0%" stop-color="#FFF5DE"/>
+      <stop offset="50%" stop-color="#F2DCB1"/>
+      <stop offset="100%" stop-color="#DECA9B"/>
     </linearGradient>
     <linearGradient id="scent-trail" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#C8A2C8" stop-opacity="0.8"/>

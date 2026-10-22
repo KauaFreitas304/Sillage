@@ -26,13 +26,18 @@ include __DIR__ . '/header.php';
   <!-- Barra Lateral (Sidebar / Sumário Dinâmico) Conforme Mockup 2 -->
   <aside class="sillage-sidebar" aria-label="Sumário de Tópicos e Curiosidades">
     <div class="sillage-sidebar-title d-flex justify-content-between align-items-center">
-      <span><i class="bi bi-book-half me-2"></i> Sumário / Tópicos</span>
-      <button class="btn btn-sm sillage-sidebar-collapse-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sillageSidebarCollapse" aria-expanded="true" aria-controls="sillageSidebarCollapse" aria-label="Recolher ou Expandir Tópicos">
+      <span class="d-flex align-items-center">
+        <i class="bi bi-book-half me-2"></i> Sumário / Tópicos
+        <?php if (!empty($topicosSidebar)): ?>
+          <span class="badge rounded-pill bg-light text-dark ms-2 d-lg-none" style="font-size: 0.72rem;"><?= count($topicosSidebar) ?></span>
+        <?php endif; ?>
+      </span>
+      <button class="btn btn-sm sillage-sidebar-collapse-btn d-lg-none" type="button" data-bs-toggle="collapse" data-bs-target="#sillageSidebarCollapse" aria-expanded="false" aria-controls="sillageSidebarCollapse" aria-label="Recolher ou Expandir Tópicos">
         <i class="bi bi-chevron-down"></i>
       </button>
     </div>
     
-    <div class="collapse show d-lg-block" id="sillageSidebarCollapse">
+    <div class="collapse d-lg-block" id="sillageSidebarCollapse">
       <nav>
         <ul class="sillage-sidebar-list">
           <?php if (!empty($topicosSidebar)): ?>

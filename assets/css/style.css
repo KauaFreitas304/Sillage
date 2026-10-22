@@ -40,6 +40,11 @@
   box-sizing: border-box;
 }
 
+html {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   font-family: var(--sillage-font-sans);
   background-color: var(--sillage-offwhite);
@@ -49,8 +54,15 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
+  max-width: 100%;
+  overflow-x: clip;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg, video {
+  max-width: 100%;
+  height: auto;
 }
 
 h1, h2, h3, h4, .sillage-serif {
@@ -80,18 +92,26 @@ a:hover {
   top: 0;
   z-index: 1030;
   transition: var(--sillage-transition);
+  width: 100%;
+}
+
+.sillage-header-brand-wrap {
+  min-width: 0;
 }
 
 .sillage-brand-container {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .sillage-logo-img {
   height: 52px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+  flex-shrink: 0;
+  transition: height 0.2s ease;
 }
 
 .sillage-brand-name {
@@ -105,14 +125,15 @@ a:hover {
 
 .sillage-page-title-badge {
   font-family: var(--sillage-font-serif);
-  font-size: 1.6rem;
+  font-size: 1.45rem;
   color: var(--sillage-champagne-light);
   margin-left: 20px;
   padding-left: 20px;
   border-left: 1px solid rgba(242, 220, 177, 0.4);
+  white-space: nowrap;
 }
 
-/* Pílulas de Navegação (Conforme Wireframes) */
+/* Pílulas de Navegação Desktop (Conforme Wireframes) */
 .sillage-nav-pill {
   display: inline-flex;
   align-items: center;
@@ -128,6 +149,7 @@ a:hover {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
   transition: var(--sillage-transition);
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .sillage-nav-pill:hover,
@@ -139,7 +161,7 @@ a:hover {
   border-color: var(--sillage-champagne);
 }
 
-/* Botão Discreto de Login ADM */
+/* Botão Discreto de Login ADM Desktop */
 .sillage-adm-lock-btn {
   display: inline-flex;
   align-items: center;
@@ -152,12 +174,174 @@ a:hover {
   border: 1px solid rgba(242, 220, 177, 0.3);
   transition: var(--sillage-transition);
   margin-left: 10px;
+  flex-shrink: 0;
 }
 
 .sillage-adm-lock-btn:hover {
   background: var(--sillage-champagne);
   color: var(--sillage-darkgreen);
   transform: rotate(10deg) scale(1.08);
+}
+
+/* ========================================================
+   Componentes de Ação Mobile no Cabeçalho (< 992px)
+   ======================================================== */
+.sillage-mobile-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sillage-mobile-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--sillage-radius-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid rgba(242, 220, 177, 0.4);
+  transition: var(--sillage-transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.sillage-btn-mobile-sumario {
+  background: linear-gradient(135deg, var(--sillage-sage) 0%, #8E9F83 100%);
+  color: #FFFFFF !important;
+  border-color: var(--sillage-champagne);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+}
+
+.sillage-btn-mobile-sumario:hover,
+.sillage-btn-mobile-sumario:active {
+  background: var(--sillage-sage-dark);
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+}
+
+.sillage-btn-mobile-lock,
+.sillage-btn-mobile-adm {
+  width: 40px;
+  padding: 0;
+  background: rgba(242, 220, 177, 0.15);
+  color: var(--sillage-champagne) !important;
+}
+
+.sillage-btn-mobile-lock:hover,
+.sillage-btn-mobile-adm:hover,
+.sillage-btn-mobile-lock:active,
+.sillage-btn-mobile-adm:active {
+  background: var(--sillage-champagne);
+  color: var(--sillage-darkgreen-deep) !important;
+  transform: translateY(-1px);
+}
+
+.sillage-btn-mobile-menu {
+  width: 40px;
+  padding: 0;
+  background: var(--sillage-champagne);
+  color: var(--sillage-darkgreen-deep) !important;
+  border-color: #FFFFFF;
+  font-size: 1.35rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+.sillage-btn-mobile-menu:hover,
+.sillage-btn-mobile-menu:active {
+  background: #FFFFFF;
+  color: var(--sillage-darkgreen) !important;
+  transform: translateY(-1px);
+}
+
+/* Offcanvas Drawer de Navegação Mobile */
+.sillage-nav-offcanvas {
+  width: min(340px, 86vw) !important;
+  background: linear-gradient(180deg, var(--sillage-darkgreen-deep) 0%, #303B31 100%) !important;
+  color: var(--sillage-offwhite);
+  border-left: 2px solid var(--sillage-champagne) !important;
+  box-shadow: -6px 0 30px rgba(0, 0, 0, 0.45) !important;
+}
+
+.sillage-nav-offcanvas .offcanvas-header {
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(242, 220, 177, 0.25) !important;
+  padding: 18px 20px;
+}
+
+.sillage-mobile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sillage-mobile-nav-label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--sillage-sage-light);
+  font-weight: 700;
+  margin-bottom: 6px;
+  padding-left: 6px;
+}
+
+.sillage-mobile-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: var(--sillage-radius-sm);
+  color: var(--sillage-champagne-light);
+  font-family: var(--sillage-font-sans);
+  font-size: 0.96rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid transparent;
+  transition: var(--sillage-transition);
+  min-height: 48px;
+}
+
+.sillage-mobile-nav-item:hover,
+.sillage-mobile-nav-item:active,
+.sillage-mobile-nav-item.active {
+  background: rgba(242, 220, 177, 0.16);
+  color: #FFFFFF;
+  border-color: rgba(242, 220, 177, 0.35);
+  transform: translateX(4px);
+}
+
+.sillage-mobile-nav-item.active {
+  background: linear-gradient(90deg, rgba(242, 220, 177, 0.25) 0%, rgba(242, 220, 177, 0.08) 100%);
+  border-left: 4px solid var(--sillage-champagne);
+  color: var(--sillage-champagne);
+}
+
+.sillage-nav-icon {
+  font-size: 1.15rem;
+  width: 26px;
+  color: var(--sillage-champagne);
+  margin-right: 12px;
+}
+
+.sillage-nav-arrow {
+  font-size: 0.85rem;
+  color: var(--sillage-sage-light);
+  opacity: 0.6;
+  transition: transform 0.2s ease;
+}
+
+.sillage-mobile-nav-item:hover .sillage-nav-arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+.sillage-mobile-nav-divider {
+  border-color: rgba(242, 220, 177, 0.2);
+  margin: 12px 0;
 }
 
 /* ========================================================
@@ -280,6 +464,8 @@ a:hover {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
+  min-width: 0;
+  width: 100%;
 }
 
 .sillage-launch-card {
@@ -291,6 +477,8 @@ a:hover {
   transition: var(--sillage-transition);
   box-shadow: var(--sillage-shadow-sm);
   border: 1px solid rgba(255, 255, 255, 0.4);
+  min-width: 0;
+  max-width: 100%;
 }
 
 .sillage-launch-card:hover {
@@ -310,6 +498,7 @@ a:hover {
   margin-bottom: 16px;
   position: relative;
   border: 1px solid rgba(92, 107, 94, 0.15);
+  width: 100%;
 }
 
 .sillage-card-img-wrapper img {
@@ -329,6 +518,8 @@ a:hover {
   flex-direction: column;
   gap: 6px;
   color: var(--sillage-darkgreen-deep);
+  min-width: 0;
+  width: 100%;
 }
 
 .sillage-perfume-name {
@@ -337,12 +528,14 @@ a:hover {
   font-weight: 700;
   color: #1F2820;
   margin-bottom: 2px;
+  word-break: break-word;
 }
 
 .sillage-perfume-meta {
   font-size: 0.95rem;
   color: #2F3B30;
   margin: 0;
+  word-break: break-word;
 }
 
 .sillage-perfume-pyramid-preview {
@@ -352,6 +545,9 @@ a:hover {
   font-size: 0.88rem;
   color: #384639;
   text-align: left;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .sillage-btn-explore {
@@ -825,19 +1021,12 @@ a:hover {
    Componentes Específicos para Mobile & Sidebar Adaptativa
    ======================================================== */
 
-/* Botão de alternância da Sidebar no Menu Superior Mobile */
-.sillage-nav-sidebar-btn {
-  background: linear-gradient(135deg, var(--sillage-sage) 0%, #8E9F83 100%) !important;
-  color: #FFFFFF !important;
-  border-color: var(--sillage-champagne) !important;
-}
-
 /* Botão Flutuante de Acesso Rápido ao Sumário no Mobile */
 .sillage-floating-sidebar-btn {
   position: fixed;
-  bottom: 24px;
+  bottom: 22px;
   right: 18px;
-  z-index: 1040;
+  z-index: 1030;
   background: var(--sillage-darkgreen);
   color: var(--sillage-champagne-light);
   border: 1.5px solid var(--sillage-champagne);
@@ -852,6 +1041,7 @@ a:hover {
   font-weight: 600;
   transition: var(--sillage-transition);
   cursor: pointer;
+  min-height: 44px;
 }
 
 .sillage-floating-sidebar-btn:hover,
@@ -868,33 +1058,36 @@ a:hover {
   border: 1px solid var(--sillage-darkgreen);
   color: var(--sillage-darkgreen);
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
   padding: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: var(--sillage-transition);
+  cursor: pointer;
 }
 
-.sillage-sidebar-collapse-btn:hover {
+.sillage-sidebar-collapse-btn:hover,
+.sillage-sidebar-collapse-btn:active {
   background: var(--sillage-champagne);
   color: var(--sillage-darkgreen-deep);
+  transform: scale(1.05);
 }
 
-/* Offcanvas Drawer Móvel da Sidebar (Fiel ao Mockup 2 com Ramo Botânico) */
+/* Offcanvas Drawer Móvel da Sidebar (Fiel ao Mockup com Ramo Botânico) */
 .sillage-mobile-offcanvas-sidebar {
-  width: 320px !important;
-  max-width: 86vw !important;
+  width: min(340px, 86vw) !important;
   background-color: var(--sillage-sage) !important;
   border-right: 2px solid var(--sillage-champagne) !important;
-  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 4px 0 25px rgba(0, 0, 0, 0.35) !important;
 }
 
 .sillage-mobile-offcanvas-sidebar .offcanvas-header {
-  background-color: var(--sillage-sage);
-  border-bottom: 2px solid var(--sillage-darkgreen);
-  padding: 20px 20px 15px 20px;
+  background-color: var(--sillage-darkgreen);
+  border-bottom: 2px solid var(--sillage-champagne);
+  padding: 18px 20px;
 }
 
 .sillage-mobile-offcanvas-sidebar .offcanvas-body {
@@ -914,12 +1107,12 @@ a:hover {
   position: absolute;
   top: 0;
   right: 0;
-  width: 34px;
+  width: 32px;
   height: 100%;
   pointer-events: none;
   background-image: url('../img/vine-divider.svg');
   background-repeat: repeat-y;
-  background-size: 34px auto;
+  background-size: 32px auto;
   opacity: 0.85;
   z-index: 2;
 }
@@ -932,15 +1125,38 @@ a:hover {
 @media (max-width: 991px) {
   .sillage-main-wrapper {
     flex-direction: column;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Cabeçalho no Tablet / Mobile Médio */
+  .sillage-header {
+    padding: 8px 0;
+  }
+
+  .sillage-logo-img {
+    height: 40px;
+  }
+
+  .sillage-page-title-badge {
+    font-size: 0.95rem;
+    padding: 3px 10px;
+    margin-left: 10px;
+    border-left: 2px solid var(--sillage-champagne);
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* Sidebar no fluxo da página adaptada ao celular mantendo a estética idêntica */
   .sillage-sidebar {
     width: 100%;
-    min-width: 100%;
+    min-width: 0;
+    max-width: 100%;
     border-right: none;
     border-bottom: 3px solid var(--sillage-champagne);
-    padding: 24px 20px;
+    padding: 18px 20px;
     position: relative;
     overflow: hidden;
     background-color: var(--sillage-sage);
@@ -952,12 +1168,12 @@ a:hover {
     position: absolute;
     top: 0;
     right: 0;
-    width: 34px;
+    width: 30px;
     height: 100%;
     pointer-events: none;
     background-image: url('../img/vine-divider.svg');
     background-repeat: repeat-y;
-    background-size: 34px auto;
+    background-size: 30px auto;
     opacity: 0.85;
     z-index: 2;
   }
@@ -965,43 +1181,62 @@ a:hover {
   .sillage-sidebar-title {
     position: relative;
     z-index: 3;
-    padding-right: 38px;
-    font-size: 1.3rem;
-    margin-bottom: 18px;
+    padding-right: 36px;
+    font-size: 1.25rem;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   .sillage-sidebar-list {
     position: relative;
     z-index: 3;
-    padding-right: 38px;
-    gap: 12px;
+    padding-right: 36px;
+    gap: 10px;
+    padding-top: 14px;
   }
 
   .sillage-sidebar-item a {
-    font-size: 1.05rem;
-    padding: 9px 12px;
+    font-size: 0.98rem;
+    padding: 10px 14px;
+    min-height: 44px;
+    word-break: break-word;
   }
 
   /* Área de Conteúdo da Home */
   .sillage-content-area {
-    padding: 28px 18px;
+    padding: 28px 20px;
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
   }
 
-  /* Cards de Resenha Aprofundada */
+  .sillage-section-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .sillage-cards-grid {
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Cards de Resenha Aprofundada no Tablet */
   .sillage-review-wide-card {
     flex-direction: column;
     padding: 20px;
+    gap: 20px;
   }
 
   .sillage-review-thumb {
     width: 100%;
-    min-width: 100%;
-    height: 240px;
-    margin-bottom: 16px;
+    min-width: 0;
+    height: 220px;
+    margin-bottom: 0;
   }
 
   .sillage-review-details {
     padding: 0;
+    min-width: 0;
   }
 }
 
@@ -1009,90 +1244,93 @@ a:hover {
 @media (max-width: 767px) {
   /* Cabeçalho Superior Adaptável */
   .sillage-header {
-    padding: 8px 0;
+    padding: 6px 0;
   }
 
   .sillage-header .container-fluid {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .sillage-brand-container {
-    gap: 8px;
+    flex-wrap: nowrap !important;
   }
 
   .sillage-logo-img {
-    height: 34px;
+    height: 32px;
   }
 
-  /* Badge do Título da Seção adaptado em vez de oculto */
   .sillage-page-title-badge {
-    display: inline-block !important;
-    font-size: 0.82rem;
-    padding: 3px 10px;
-    margin-left: 8px;
-    border-left: 2px solid var(--sillage-champagne);
-    letter-spacing: 0.4px;
+    display: none !important; /* Libera espaço total para a marca e botões de ação no mobile */
   }
 
-  /* Navegação em Pílulas com Rolagem Suave por Toque */
-  .sillage-nav-container {
-    width: 100%;
+  .sillage-mobile-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 4px 0 2px 0;
-  }
-
-  .sillage-nav-container::-webkit-scrollbar {
-    display: none;
-  }
-
-  .sillage-nav-pill {
-    padding: 6px 14px;
-    font-size: 0.84rem;
-    white-space: nowrap;
+    gap: 6px;
     flex-shrink: 0;
-    min-height: 36px;
+    flex-wrap: nowrap !important;
   }
 
-  .sillage-adm-lock-btn {
-    width: 36px;
-    height: 36px;
-    flex-shrink: 0;
-    margin-left: 0;
+  .sillage-mobile-action-btn {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    padding: 0;
+    font-size: 0.95rem;
   }
 
-  /* Carrossel de Lançamentos */
+  /* Carrossel de Lançamentos - Grade de Coluna Única sem Overflow */
+  .sillage-content-area {
+    padding: 20px 14px;
+  }
+
   .sillage-section-header h1 {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
+    line-height: 1.25;
   }
 
   .sillage-section-header p {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  /* Oculta controles de seta no mobile pois os cards ficam verticalmente organizados */
+  #carousel-prev,
+  #carousel-next {
+    display: none !important;
   }
 
   .sillage-cards-grid {
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
   }
 
   .sillage-launch-card {
     padding: 16px;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
   }
 
   .sillage-card-img-wrapper {
-    height: 210px;
+    height: 200px;
   }
 
   .sillage-perfume-name {
     font-size: 1.22rem;
+    line-height: 1.3;
+  }
+
+  .sillage-perfume-meta {
+    font-size: 0.88rem;
+  }
+
+  .sillage-perfume-pyramid-preview {
+    font-size: 0.82rem;
+    white-space: normal !important;
+  }
+
+  .sillage-perfume-pyramid-preview .small {
+    white-space: normal !important;
+    word-break: break-word;
   }
 
   .sillage-btn-explore {
@@ -1101,73 +1339,159 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 0.88rem;
   }
 
-  /* Página de Post Individual (RF04) */
-  .sillage-post-container {
-    padding: 0 8px;
-    margin: 15px auto;
+  /* Página de Resenhas (RF02) */
+  .sillage-reviews-container {
+    padding: 0;
+    gap: 18px;
   }
 
-  .sillage-post-card {
-    padding: 24px 16px;
+  .sillage-review-wide-card {
+    padding: 16px;
+    gap: 16px;
   }
 
-  .sillage-post-card h1 {
-    font-size: 1.6rem;
+  .sillage-review-thumb {
+    height: 190px;
+    padding: 10px;
+  }
+
+  .sillage-review-title {
+    font-size: 1.3rem;
     line-height: 1.25;
   }
 
-  .sillage-post-hero-img {
-    max-height: 280px;
-    width: 100%;
-    object-fit: contain;
+  .sillage-review-info-line {
+    font-size: 0.92rem;
   }
 
-  .sillage-pyramid-box {
-    padding: 16px 14px;
+  .sillage-review-pyramid-block {
+    padding: 8px 12px;
+    font-size: 0.86rem;
+  }
+
+  .sillage-review-footer {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .sillage-review-footer span {
+    text-align: center;
+    font-size: 0.8rem;
+  }
+
+  .sillage-review-footer .sillage-btn-explore {
+    width: 100%;
+    min-height: 44px;
   }
 
   /* Página Sobre o Grupo (RF03) */
   .sillage-about-outer-frame {
-    margin: 15px auto;
-    padding: 0 6px;
+    margin: 10px auto;
+    padding: 0 2px;
   }
 
   .sillage-about-box {
-    padding: 14px;
+    padding: 10px;
+    border-radius: var(--sillage-radius-md);
   }
 
   .sillage-about-inner-paper {
-    padding: 26px 16px;
+    padding: 22px 14px;
+    border-radius: var(--sillage-radius-sm);
   }
 
   .sillage-about-hero-title {
-    font-size: 1.85rem;
-    margin-bottom: 16px;
+    font-size: 1.65rem;
+    line-height: 1.25;
+    margin-bottom: 14px;
   }
 
   .sillage-creators-badge {
-    font-size: 0.8rem;
-    padding: 6px 14px;
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    margin-bottom: 14px;
+    line-height: 1.3;
+  }
+
+  /* Página de Post Individual (RF04) */
+  .sillage-post-container {
+    padding: 0;
+    margin: 10px auto;
+  }
+
+  .sillage-post-card {
+    padding: 20px 14px;
+    border-radius: var(--sillage-radius-md);
+  }
+
+  .sillage-post-card h1 {
+    font-size: 1.45rem;
+    line-height: 1.25;
     margin-bottom: 16px;
+  }
+
+  .sillage-post-hero-img {
+    max-height: 230px;
+    width: 100%;
+    object-fit: contain;
+    padding: 12px;
+    margin-bottom: 20px;
+  }
+
+  .sillage-pyramid-box {
+    padding: 14px 12px;
+    margin: 20px 0;
+  }
+
+  .sillage-pyramid-box h3 {
+    font-size: 1.05rem;
+  }
+
+  .sillage-post-content {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .sillage-post-content p {
+    margin-bottom: 1.1rem;
+  }
+
+  .sillage-post-card .border-top {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 10px;
+  }
+
+  .sillage-post-card .border-top .btn {
+    width: 100%;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* Card de Login (Wireframe 5) */
   .sillage-login-wrapper {
-    padding: 30px 12px;
+    padding: 20px 12px;
+    min-height: auto;
   }
 
   .sillage-login-card-lilac {
     width: 100%;
-    max-width: 360px;
-    padding: 28px 18px;
+    max-width: 100%;
+    padding: 24px 16px;
     margin: 0 auto;
+    border-radius: var(--sillage-radius-md);
   }
 
   .sillage-login-card-lilac h2 {
-    font-size: 1.8rem;
-    margin-bottom: 18px;
+    font-size: 1.65rem;
+    margin-bottom: 16px;
   }
 
   .sillage-login-input {
@@ -1183,51 +1507,125 @@ a:hover {
 
   /* Rodapé & LGPD */
   .sillage-footer {
-    padding: 18px 15px;
-    font-size: 0.88rem;
+    padding: 18px 12px;
+    font-size: 0.85rem;
+  }
+
+  .sillage-footer p {
+    line-height: 1.4;
   }
 
   .sillage-lgpd-banner {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    padding: 12px 14px;
+    border-radius: var(--sillage-radius-md);
     flex-direction: column;
-    text-align: center;
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    padding: 16px;
+    text-align: left;
+    gap: 10px;
+  }
+
+  .sillage-lgpd-text {
+    font-size: 0.82rem;
+    line-height: 1.35;
   }
 
   .sillage-lgpd-buttons {
     width: 100%;
-    flex-direction: column;
+    display: flex;
+    flex-direction: row;
     gap: 8px;
   }
 
   .sillage-btn-lgpd-accept,
   .sillage-btn-lgpd-settings {
-    width: 100%;
-    min-height: 40px;
+    flex: 1;
+    text-align: center;
+    min-height: 38px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Botão Flutuante */
+  .sillage-floating-sidebar-btn {
+    bottom: 16px;
+    right: 14px;
+    padding: 8px 14px;
+    font-size: 0.88rem;
+    min-height: 42px;
   }
 }
 
-/* Telas Muito Pequenas (< 576px) */
-@media (max-width: 575px) {
-  .sillage-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 18px;
+/* Telas Muito Pequenas e Estreitas (<= 380px, ex: iPhone 5/SE 1st gen 320px) */
+@media (max-width: 380px) {
+  .sillage-logo-img {
+    height: 30px;
   }
 
   .sillage-page-title-badge {
-    font-size: 0.74rem;
-    padding: 2px 8px;
+    display: none !important; /* Libera espaço total para a marca e botões de ação */
   }
 
-  .sillage-review-footer {
+  .sillage-mobile-actions {
+    gap: 5px;
+  }
+
+  .sillage-mobile-action-btn {
+    min-width: 36px;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+  }
+
+  .sillage-btn-mobile-sumario span {
+    display: none !important;
+  }
+
+  .sillage-content-area {
+    padding: 16px 10px;
+  }
+
+  .sillage-launch-card {
+    padding: 12px 10px;
+  }
+
+  .sillage-card-img-wrapper {
+    height: 180px;
+  }
+
+  .sillage-perfume-name {
+    font-size: 1.15rem;
+  }
+
+  .sillage-sidebar {
+    padding: 14px 12px;
+  }
+
+  .sillage-sidebar-title {
+    font-size: 1.1rem;
+    padding-right: 30px;
+  }
+
+  .sillage-sidebar-list {
+    padding-right: 30px;
+  }
+
+  .sillage-sidebar-item a {
+    font-size: 0.92rem;
+    padding: 8px 10px;
+  }
+
+  .sillage-lgpd-buttons {
     flex-direction: column;
-    align-items: stretch !important;
   }
 
-  .sillage-review-footer span {
-    text-align: center;
+  .sillage-btn-lgpd-accept,
+  .sillage-btn-lgpd-settings {
+    width: 100%;
   }
 }
 
@@ -1236,7 +1634,7 @@ a:hover {
    ======================================================== */
 @media (max-width: 767px) {
   .navbar-brand img {
-    height: 30px !important;
+    height: 28px !important;
   }
   
   header.navbar nav {
@@ -1244,20 +1642,32 @@ a:hover {
     justify-content: flex-start;
     margin-top: 8px;
     gap: 6px !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap !important;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  header.navbar nav::-webkit-scrollbar {
+    display: none;
   }
 
   header.navbar nav .btn {
-    font-size: 0.8rem;
-    padding: 5px 12px;
+    font-size: 0.78rem;
+    padding: 5px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .table-responsive {
     border-radius: var(--sillage-radius-sm);
     box-shadow: inset -5px 0 8px -4px rgba(0, 0, 0, 0.1);
+    -webkit-overflow-scrolling: touch;
   }
 
   .table-responsive table {
-    min-width: 650px; /* Garante que a tabela não quebre layout e role suavemente */
+    min-width: 600px;
   }
 }
 

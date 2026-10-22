@@ -24,7 +24,7 @@ $adminPageTitle = $adminPageTitle ?? 'Painel Administrativo — Sillage';
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- Sillage Stylesheet -->
-  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>">
 </head>
 <body style="background-color: #F4F6F4;">
 

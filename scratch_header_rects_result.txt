@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px; border: none;"></iframe>
+<pre id="output">win.innerWidth: 375
+container-fluid: rect={"x":0,"y":8,"width":360,"height":36,"top":8,"right":360,"bottom":44,"left":0}, flexWrap=nowrap
+brand: rect={"x":16,"y":11,"width":120,"height":30,"top":11,"right":136,"bottom":41,"left":16}
+actions: rect={"x":220,"y":8,"width":124,"height":36,"top":8,"right":344,"bottom":44,"left":220}, flexWrap=nowrap
+b1 (sumario): rect={"x":220,"y":8,"width":36,"height":36,"top":8,"right":256,"bottom":44,"left":220}, display=flex
+b2 (lock): rect={"x":264,"y":8,"width":36,"height":36,"top":8,"right":300,"bottom":44,"left":264}, display=flex
+b3 (menu): rect={"x":308,"y":8,"width":36,"height":36,"top":8,"right":344,"bottom":44,"left":308}, display=flex
+</pre>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      
+      const cf = doc.querySelector('.sillage-header .container-fluid');
+      const brand = doc.querySelector('.sillage-header-brand-wrap');
+      const actions = doc.querySelector('.sillage-mobile-actions');
+      const b1 = doc.querySelector('.sillage-btn-mobile-sumario');
+      const b2 = doc.querySelector('.sillage-btn-mobile-lock');
+      const b3 = doc.querySelector('.sillage-btn-mobile-menu');
+      
+      let out = `win.innerWidth: ${win.innerWidth}\n`;
+      out += `container-fluid: rect=${JSON.stringify(cf.getBoundingClientRect())}, flexWrap=${win.getComputedStyle(cf).flexWrap}\n`;
+      out += `brand: rect=${JSON.stringify(brand.getBoundingClientRect())}\n`;
+      out += `actions: rect=${JSON.stringify(actions.getBoundingClientRect())}, flexWrap=${win.getComputedStyle(actions).flexWrap}\n`;
+      out += `b1 (sumario): rect=${JSON.stringify(b1 ? b1.getBoundingClientRect() : null)}, display=${b1 ? win.getComputedStyle(b1).display : null}\n`;
+      out += `b2 (lock): rect=${JSON.stringify(b2 ? b2.getBoundingClientRect() : null)}, display=${b2 ? win.getComputedStyle(b2).display : null}\n`;
+      out += `b3 (menu): rect=${JSON.stringify(b3 ? b3.getBoundingClientRect() : null)}, display=${b3 ? win.getComputedStyle(b3).display : null}\n`;
+      
+      document.getElementById('output').textContent = out;
+    } catch(e) {
+      document.getElementById('output').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+
+
+</body></html>

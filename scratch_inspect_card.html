@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px; border: none;"></iframe>
+<pre id="output"></pre>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      const grid = doc.querySelector('.sillage-cards-grid');
+      const card = doc.querySelector('.sillage-launch-card');
+      const body = doc.body;
+      const html = doc.documentElement;
+      
+      const gridStyle = win.getComputedStyle(grid);
+      const cardStyle = win.getComputedStyle(card);
+      
+      let out = "";
+      out += `html: clientWidth=${html.clientWidth}, scrollWidth=${html.scrollWidth}\n`;
+      out += `body: clientWidth=${body.clientWidth}, scrollWidth=${body.scrollWidth}\n`;
+      out += `grid: display=${gridStyle.display}, gridTemplateColumns=${gridStyle.gridTemplateColumns}, width=${gridStyle.width}, scrollWidth=${grid.scrollWidth}, clientWidth=${grid.clientWidth}\n`;
+      out += `card: width=${cardStyle.width}, minWidth=${cardStyle.minWidth}, maxWidth=${cardStyle.maxWidth}, offsetWidth=${card.offsetWidth}\n`;
+      
+      // Check every child inside card
+      card.querySelectorAll('*').forEach(child => {
+        if (child.offsetWidth > 300 || child.scrollWidth > 300) {
+          out += `  card child: <${child.tagName} class="${child.className}"> offsetWidth=${child.offsetWidth}, scrollWidth=${child.scrollWidth}\n`;
+        }
+      });
+      
+      // Also check other elements in page
+      doc.querySelectorAll('*').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.width > 375 || r.right > 375) {
+          out += `OVERFLOW EL: <${el.tagName} class="${el.className}" id="${el.id}"> w=${r.width.toFixed(1)}, right=${r.right.toFixed(1)}, left=${r.left.toFixed(1)}\n`;
+        }
+      });
+      
+      document.getElementById('output').textContent = out;
+    } catch(e) {
+      document.getElementById('output').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+</body>
+</html>

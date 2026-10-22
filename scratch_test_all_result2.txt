@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<div id="results"></div>
+<script>
+const pages = [
+  'index.php',
+  'resenhas.php',
+  'sobre.php',
+  'post.php?id=3',
+  'login.php',
+  'privacidade.php'
+];
+
+async function testPage(url) {
+  return new Promise((resolve) => {
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '375px';
+    iframe.style.height = '667px';
+    iframe.style.border = '1px solid black';
+    iframe.src = url;
+    document.body.appendChild(iframe);
+    
+    iframe.onload = () => {
+      setTimeout(() => {
+        try {
+          const doc = iframe.contentDocument;
+          const win = iframe.contentWindow;
+          const scrollW = doc.documentElement.scrollWidth;
+          const innerW = win.innerWidth;
+          let issues = [];
+          if (scrollW > innerW) {
+            issues.push(`OVERFLOW: scrollWidth=${scrollW} > innerWidth=${innerW}`);
+          }
+          doc.querySelectorAll('*').forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.right > innerW + 1) {
+              issues.push(`Over-right: <${el.tagName.toLowerCase()} class="${el.className}" id="${el.id}"> right=${r.right.toFixed(1)} w=${r.width.toFixed(1)}`);
+            }
+          });
+          resolve({ url, scrollW, innerW, issues: issues.slice(0, 10) });
+        } catch(e) {
+          resolve({ url, error: e.message });
+        }
+      }, 800);
+    };
+  });
+}
+
+(async () => {
+  const resDiv = document.getElementById('results');
+  let text = "";
+  for (const p of pages) {
+    const r = await testPage(p);
+    text += `=== PAGE: ${r.url} ===\n`;
+    text += `scrollWidth: ${r.scrollW}, innerWidth: ${r.innerW}\n`;
+    if (r.issues && r.issues.length) {
+      text += r.issues.join('\n') + '\n';
+    } else {
+      text += "NO OVERFLOW!\n";
+    }
+    text += "\n";
+  }
+  const pre = document.createElement('pre');
+  pre.id = "final_output";
+  pre.textContent = text;
+  document.body.appendChild(pre);
+})();
+</script><iframe src="index.php" style="width: 375px; height: 667px; border: 1px solid black;"></iframe>
+
+
+<iframe src="resenhas.php" style="width: 375px; height: 667px; border: 1px solid black;"></iframe><iframe src="sobre.php" style="width: 375px; height: 667px; border: 1px solid black;"></iframe><iframe src="post.php?id=3" style="width: 375px; height: 667px; border: 1px solid black;"></iframe><iframe src="login.php" style="width: 375px; height: 667px; border: 1px solid black;"></iframe><iframe src="privacidade.php" style="width: 375px; height: 667px; border: 1px solid black;"></iframe><pre id="final_output">=== PAGE: index.php ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item active" id=""&gt; right=655.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=558.5 w=158.5
+
+=== PAGE: resenhas.php ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item " id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=551.5 w=158.5
+
+=== PAGE: sobre.php ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item " id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=551.5 w=158.5
+
+=== PAGE: post.php?id=3 ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item " id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=551.5 w=158.5
+
+=== PAGE: login.php ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item " id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=551.5 w=158.5
+
+=== PAGE: privacidade.php ===
+scrollWidth: 360, innerWidth: 375
+Over-right: &lt;div class="offcanvas offcanvas-end sillage-nav-offcanvas" id="sillageNavOffcanvas"&gt; right=682.5 w=322.5
+Over-right: &lt;div class="offcanvas-header border-bottom" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;div class="d-flex align-items-center gap-2" id="sillageNavOffcanvasLabel"&gt; right=518.0 w=136.0
+Over-right: &lt;img class="" id=""&gt; right=518.0 w=136.0
+Over-right: &lt;button class="btn-close btn-close-white shadow-none" id=""&gt; right=670.5 w=32.0
+Over-right: &lt;div class="offcanvas-body d-flex flex-column justify-content-between p-3 p-sm-4" id=""&gt; right=682.5 w=320.5
+Over-right: &lt;nav class="sillage-mobile-nav-list" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="sillage-mobile-nav-label" id=""&gt; right=651.5 w=273.5
+Over-right: &lt;a class="sillage-mobile-nav-item " id=""&gt; right=651.5 w=273.5
+Over-right: &lt;div class="d-flex align-items-center" id=""&gt; right=551.5 w=158.5
+
+</pre></body></html>

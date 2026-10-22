@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body>
+<iframe id="testframe" src="index.php" style="width: 375px; height: 667px; border: none;"></iframe>
+<pre id="output">header: w=360, scrollW=360
+brand: w=120, right=136
+badge: w=0, display=none
+actions: w=124, left=220, right=344
+  btn: &lt;BUTTON class="sillage-mobile-action-btn sillage-btn-mobile-sumario"&gt; rect={"x":220,"y":8,"width":36,"height":36,"top":8,"right":256,"bottom":44,"left":220}
+  btn: &lt;I class="bi bi-book-half"&gt; rect={"x":230.796875,"y":14.46875,"width":14.40625,"height":23.046875,"top":14.46875,"right":245.203125,"bottom":37.515625,"left":230.796875}
+  btn: &lt;SPAN class="d-none d-sm-inline ms-1"&gt; rect={"x":0,"y":0,"width":0,"height":0,"top":0,"right":0,"bottom":0,"left":0}
+  btn: &lt;A class="sillage-mobile-action-btn sillage-btn-mobile-lock"&gt; rect={"x":264,"y":8,"width":36,"height":36,"top":8,"right":300,"bottom":44,"left":264}
+  btn: &lt;I class="bi bi-lock-fill"&gt; rect={"x":274.796875,"y":14.46875,"width":14.40625,"height":23.046875,"top":14.46875,"right":289.203125,"bottom":37.515625,"left":274.796875}
+  btn: &lt;BUTTON class="sillage-mobile-action-btn sillage-btn-mobile-menu"&gt; rect={"x":308,"y":8,"width":36,"height":36,"top":8,"right":344,"bottom":44,"left":308}
+  btn: &lt;I class="bi bi-list"&gt; rect={"x":315.1875,"y":8.734375,"width":21.609375,"height":34.546875,"top":8.734375,"right":336.796875,"bottom":43.28125,"left":315.1875}
+</pre>
+<script>
+window.onload = function() {
+  setTimeout(() => {
+    try {
+      const doc = document.getElementById('testframe').contentDocument;
+      const win = document.getElementById('testframe').contentWindow;
+      const header = doc.querySelector('.sillage-header');
+      const brand = doc.querySelector('.sillage-header-brand-wrap');
+      const badge = doc.querySelector('.sillage-page-title-badge');
+      const actions = doc.querySelector('.sillage-mobile-actions');
+      
+      let out = "";
+      out += `header: w=${header.offsetWidth}, scrollW=${header.scrollWidth}\n`;
+      out += `brand: w=${brand.offsetWidth}, right=${brand.getBoundingClientRect().right}\n`;
+      out += `badge: w=${badge ? badge.offsetWidth : 'null'}, display=${win.getComputedStyle(badge).display}\n`;
+      out += `actions: w=${actions.offsetWidth}, left=${actions.getBoundingClientRect().left}, right=${actions.getBoundingClientRect().right}\n`;
+      actions.querySelectorAll('*').forEach(btn => {
+        out += `  btn: <${btn.tagName} class="${btn.className}"> rect=${JSON.stringify(btn.getBoundingClientRect())}\n`;
+      });
+      document.getElementById('output').textContent = out;
+    } catch(e) {
+      document.getElementById('output').textContent = e.message;
+    }
+  }, 1000);
+};
+</script>
+
+
+</body></html>
