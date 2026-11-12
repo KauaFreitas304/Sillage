@@ -65,9 +65,6 @@ include __DIR__ . '/header.php';
         <p class="text-muted mt-3">
           Área restrita aos administradores e curadores editoriais do portal Sillage.
         </p>
-        <div class="alert alert-info py-2 px-3 small d-inline-block mt-2">
-          <i class="bi bi-info-circle me-1"></i> <strong>Acesso Inicial:</strong> admin@blog.com (ou admin@sillage.com) | admin123
-        </div>
       </div>
 
       <!-- Lado Direito: Card Lilás Conforme Wireframe 5 -->

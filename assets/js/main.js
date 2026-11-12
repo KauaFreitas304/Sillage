@@ -34,22 +34,46 @@ function initMobileSidebar() {
 }
 
 /**
- * Carrossel de Lançamentos (Suporta rolagem suave ou setas de navegação)
+ * Carrossel de Lançamentos (Bootstrap 5 Carousel com controles e toque)
  */
 function initLaunchCarousel() {
-    const grid = document.querySelector('.sillage-cards-grid');
+    const carouselEl = document.getElementById('carouselLancamentos');
     const prevBtn = document.getElementById('carousel-prev');
     const nextBtn = document.getElementById('carousel-next');
 
-    if (!grid || !prevBtn || !nextBtn) return;
+    if (carouselEl && window.bootstrap && window.bootstrap.Carousel) {
+        const bsCarousel = bootstrap.Carousel.getOrCreateInstance(carouselEl, {
+            interval: 6500,
+            ride: 'carousel',
+            wrap: true,
+            touch: true
+        });
 
-    nextBtn.addEventListener('click', () => {
-        grid.scrollBy({ left: 340, behavior: 'smooth' });
-    });
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                bsCarousel.prev();
+            });
+        }
 
-    prevBtn.addEventListener('click', () => {
-        grid.scrollBy({ left: -340, behavior: 'smooth' });
-    });
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                bsCarousel.next();
+            });
+        }
+    } else {
+        // Fallback para listagem ou teste sem Bootstrap JS
+        const grid = document.querySelector('.sillage-cards-grid');
+        if (grid && prevBtn && nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                grid.scrollBy({ left: 340, behavior: 'smooth' });
+            });
+            prevBtn.addEventListener('click', () => {
+                grid.scrollBy({ left: -340, behavior: 'smooth' });
+            });
+        }
+    }
 }
 
 /**

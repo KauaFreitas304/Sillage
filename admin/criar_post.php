@@ -33,6 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (!in_array($categoria, ['noticias', 'resenhas', 'curiosidades'])) {
             $error = 'Categoria inválida selecionada.';
         } else {
+            // Caso seja curiosidades/informações, limpa campos técnicos de perfume
+            if ($categoria === 'curiosidades') {
+                $nome_perfume     = null;
+                $concentracao     = null;
+                $familia_olfativa = null;
+                $notas_topo       = null;
+                $notas_corpo      = null;
+                $notas_fundo      = null;
+                $clima            = null;
+            }
+
             // Processamento do upload da imagem de capa (se enviada)
             $imagemPath = null;
             if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === UPLOAD_ERR_OK) {
@@ -99,6 +110,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $csrfToken = generate_csrf_token();
+$selectedCategoria = $_POST['categoria'] ?? ($_GET['categoria'] ?? 'noticias');
+if (!in_array($selectedCategoria, ['noticias', 'resenhas', 'curiosidades'])) {
+    $selectedCategoria = 'noticias';
+}
 ?>
 
 <main class="container py-4">
@@ -106,15 +121,15 @@ $csrfToken = generate_csrf_token();
   <div class="row justify-content-center">
     <div class="col-lg-10">
 
-      <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
         <div>
           <h1 class="h3 fw-bold mb-1" style="color: var(--sillage-darkgreen);">
             Criar Nova Publicação
           </h1>
-          <p class="text-muted small mb-0">Preencha os campos abaixo para disponibilizar um novo post no Sillage.</p>
+          <p class="text-muted small mb-0">Preencha os campos abaixo de acordo com a categoria editorial selecionada.</p>
         </div>
         <a href="index.php" class="btn btn-outline-secondary rounded-pill px-3">
-          <i class="bi bi-arrow-left me-1"></i> Voltar
+          <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
         </a>
       </div>
 
@@ -127,80 +142,126 @@ $csrfToken = generate_csrf_token();
       <form action="criar_post.php" method="POST" enctype="multipart/form-data" class="card border-0 shadow-sm rounded-4 p-4 p-md-5" style="background: #FFFFFF;">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
 
-        <!-- Bloco 1: Informações Gerais -->
+        <!-- Bloco 1: Informações Gerais & Divisão Editorial (Requisito 3) -->
         <h5 class="fw-bold mb-3" style="color: var(--sillage-darkgreen);">
-          <i class="bi bi-file-earmark-text me-2"></i> 1. Dados Principais
+          <i class="bi bi-file-earmark-text me-2"></i> 1. Categoria & Dados Principais
         </h5>
+
+        <!-- Abas de Navegação em Tabs (nav-tabs Bootstrap 5) -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold mb-2">
+            <i class="bi bi-tags-fill me-1"></i> Selecione o Fluxo Editorial *
+          </label>
+          <ul class="nav nav-tabs sillage-cat-tabs mb-3" id="categoryNavTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link <?= ($selectedCategoria === 'noticias') ? 'active' : '' ?>" id="tab-noticias" data-category="noticias" type="button" role="tab">
+                <i class="bi bi-newspaper me-1"></i> Notícias &amp; Lançamentos
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link <?= ($selectedCategoria === 'resenhas') ? 'active' : '' ?>" id="tab-resenhas" data-category="resenhas" type="button" role="tab">
+                <i class="bi bi-flower1 me-1"></i> Resenhas Críticas
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link <?= ($selectedCategoria === 'curiosidades') ? 'active' : '' ?>" id="tab-curiosidades" data-category="curiosidades" type="button" role="tab">
+                <i class="bi bi-book-half me-1"></i> Informações &amp; Curiosidades (Sidebar)
+              </button>
+            </li>
+          </ul>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="categoria" class="form-label fw-semibold">Categoria Editorial (<small class="text-muted">campo do formulário</small>) *</label>
+              <select name="categoria" id="categoria" class="form-select" required>
+                <option value="noticias" <?= ($selectedCategoria === 'noticias') ? 'selected' : '' ?>>Notícias & Lançamentos</option>
+                <option value="resenhas" <?= ($selectedCategoria === 'resenhas') ? 'selected' : '' ?>>Resenhas Críticas</option>
+                <option value="curiosidades" <?= ($selectedCategoria === 'curiosidades') ? 'selected' : '' ?>>Informações & Curiosidades (Sidebar)</option>
+              </select>
+            </div>
+            <div class="col-md-6 d-flex align-items-end">
+              <div id="categoria-status-badge" class="p-2 px-3 rounded-3 w-100 border text-muted small" style="background-color: #F8F9FA;">
+                <i class="bi bi-info-circle me-1"></i> <span id="categoria-hint-text">Carregando fluxo editorial...</span>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="mb-3">
           <label for="titulo" class="form-label fw-semibold">Título da Publicação *</label>
           <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Ex: Natura Una Somos: A Potência do Floral Amadeirado Brasileiro" required value="<?= htmlspecialchars($_POST['titulo'] ?? '') ?>">
         </div>
 
-        <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <label for="categoria" class="form-label fw-semibold">Categoria Editorial *</label>
-            <select name="categoria" id="categoria" class="form-select" required>
-              <option value="noticias" <?= (isset($_POST['categoria']) && $_POST['categoria'] === 'noticias') ? 'selected' : '' ?>>Notícias & Lançamentos</option>
-              <option value="resenhas" <?= (isset($_POST['categoria']) && $_POST['categoria'] === 'resenhas') ? 'selected' : '' ?>>Resenhas Críticas</option>
-              <option value="curiosidades" <?= (isset($_POST['categoria']) && $_POST['categoria'] === 'curiosidades') ? 'selected' : '' ?>>Informações & Curiosidades (Sidebar)</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label for="imagem" class="form-label fw-semibold">Imagem de Capa / Ilustrativa</label>
-            <input type="file" name="imagem" id="imagem" class="form-control" accept="image/*">
-            <div class="form-text small">Formatos: JPG, PNG, WEBP ou SVG. Se vazio, uma arte elegante será atribuída.</div>
-          </div>
-        </div>
-
-        <hr class="my-4">
-
-        <!-- Bloco 2: Ficha Técnica Olfativa & Pirâmide (RF06) -->
-        <h5 class="fw-bold mb-3" style="color: var(--sillage-darkgreen);">
-          <i class="bi bi-flower1 me-2"></i> 2. Pirâmide Olfativa & Estrutura Sensorial <span class="text-muted fw-normal small">(Opcional para curiosidades)</span>
-        </h5>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-4">
-            <label for="nome_perfume" class="form-label fw-semibold">Nome do Perfume</label>
-            <input type="text" name="nome_perfume" id="nome_perfume" class="form-control" placeholder="Ex: Una Somos" value="<?= htmlspecialchars($_POST['nome_perfume'] ?? '') ?>">
-          </div>
-          <div class="col-md-4">
-            <label for="concentracao" class="form-label fw-semibold">Concentração</label>
-            <input type="text" name="concentracao" id="concentracao" class="form-control" placeholder="Ex: Eau de Parfum, EDT, Parfum" value="<?= htmlspecialchars($_POST['concentracao'] ?? '') ?>">
-          </div>
-          <div class="col-md-4">
-            <label for="familia_olfativa" class="form-label fw-semibold">Família Olfativa</label>
-            <input type="text" name="familia_olfativa" id="familia_olfativa" class="form-control" placeholder="Ex: Floral Amadeirado, Âmbar Gourmand" value="<?= htmlspecialchars($_POST['familia_olfativa'] ?? '') ?>">
-          </div>
-        </div>
-
-        <div class="row g-3 mb-3">
-          <div class="col-md-4">
-            <label for="notas_topo" class="form-label fw-semibold">Notas de Topo (Saída)</label>
-            <input type="text" name="notas_topo" id="notas_topo" class="form-control" placeholder="Ex: Pimenta Rosa, Bergamota, Mandarina" value="<?= htmlspecialchars($_POST['notas_topo'] ?? '') ?>">
-          </div>
-          <div class="col-md-4">
-            <label for="notas_corpo" class="form-label fw-semibold">Notas de Coração (Corpo)</label>
-            <input type="text" name="notas_corpo" id="notas_corpo" class="form-control" placeholder="Ex: Íris, Jasmim Sambac, Rosa Damascena" value="<?= htmlspecialchars($_POST['notas_corpo'] ?? '') ?>">
-          </div>
-          <div class="col-md-4">
-            <label for="notas_fundo" class="form-label fw-semibold">Notas de Base (Fundo)</label>
-            <input type="text" name="notas_fundo" id="notas_fundo" class="form-control" placeholder="Ex: Breu Branco, Patchouli, Baunilha" value="<?= htmlspecialchars($_POST['notas_fundo'] ?? '') ?>">
-          </div>
-        </div>
-
         <div class="mb-4">
-          <label for="clima" class="form-label fw-semibold">Clima / Ocasião Ideal</label>
-          <input type="text" name="clima" id="clima" class="form-control" placeholder="Ex: Outono/Inverno, noites elegantes e dias amenos" value="<?= htmlspecialchars($_POST['clima'] ?? '') ?>">
+          <label for="imagem" class="form-label fw-semibold">Imagem de Capa / Ilustrativa</label>
+          <input type="file" name="imagem" id="imagem" class="form-control" accept="image/*">
+          <div class="form-text small">Formatos: JPG, PNG, WEBP ou SVG. Se vazio, uma arte elegante será atribuída automaticamente.</div>
+        </div>
+
+        <!-- Bloco 2: Ficha Técnica Olfativa & Pirâmide (Campos Condicionais - Requisito 3) -->
+        <div id="secao-perfume-tecnica" class="sillage-conditional-section">
+          <hr class="my-4">
+          <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+            <h5 class="fw-bold mb-0" style="color: var(--sillage-darkgreen);">
+              <i class="bi bi-flower1 me-2"></i> 2. Pirâmide Olfativa &amp; Estrutura Sensorial
+            </h5>
+            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3 py-1">
+              Exclusivo para Lançamentos e Resenhas
+            </span>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label for="nome_perfume" class="form-label fw-semibold">Nome do Perfume</label>
+              <input type="text" name="nome_perfume" id="nome_perfume" class="form-control" placeholder="Ex: Una Somos" value="<?= htmlspecialchars($_POST['nome_perfume'] ?? '') ?>">
+            </div>
+            <div class="col-md-4">
+              <label for="concentracao" class="form-label fw-semibold">Concentração</label>
+              <input type="text" name="concentracao" id="concentracao" class="form-control" placeholder="Ex: Eau de Parfum, EDT, Parfum" value="<?= htmlspecialchars($_POST['concentracao'] ?? '') ?>">
+            </div>
+            <div class="col-md-4">
+              <label for="familia_olfativa" class="form-label fw-semibold">Família Olfativa</label>
+              <input type="text" name="familia_olfativa" id="familia_olfativa" class="form-control" placeholder="Ex: Floral Amadeirado, Âmbar Gourmand" value="<?= htmlspecialchars($_POST['familia_olfativa'] ?? '') ?>">
+            </div>
+          </div>
+
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <label for="notas_topo" class="form-label fw-semibold">Notas de Topo (Saída)</label>
+              <input type="text" name="notas_topo" id="notas_topo" class="form-control" placeholder="Ex: Pimenta Rosa, Bergamota, Mandarina" value="<?= htmlspecialchars($_POST['notas_topo'] ?? '') ?>">
+            </div>
+            <div class="col-md-4">
+              <label for="notas_corpo" class="form-label fw-semibold">Notas de Coração (Corpo)</label>
+              <input type="text" name="notas_corpo" id="notas_corpo" class="form-control" placeholder="Ex: Íris, Jasmim Sambac, Rosa Damascena" value="<?= htmlspecialchars($_POST['notas_corpo'] ?? '') ?>">
+            </div>
+            <div class="col-md-4">
+              <label for="notas_fundo" class="form-label fw-semibold">Notas de Base (Fundo)</label>
+              <input type="text" name="notas_fundo" id="notas_fundo" class="form-control" placeholder="Ex: Breu Branco, Patchouli, Baunilha" value="<?= htmlspecialchars($_POST['notas_fundo'] ?? '') ?>">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label for="clima" class="form-label fw-semibold">Clima / Ocasião Ideal Recomendada</label>
+            <input type="text" name="clima" id="clima" class="form-control" placeholder="Ex: Outono/Inverno, noites elegantes e dias amenos" value="<?= htmlspecialchars($_POST['clima'] ?? '') ?>">
+          </div>
+        </div>
+
+        <!-- Alerta Informativo para Informações & Curiosidades -->
+        <div id="aviso-curiosidades" class="alert alert-info border-0 shadow-sm rounded-4 p-3 mb-4" style="display: none; background-color: var(--sillage-champagne-light); color: var(--sillage-darkgreen-deep);">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-info-circle-fill fs-3 me-3 text-secondary"></i>
+            <div>
+              <strong>Fluxo de Informações &amp; Curiosidades (Sidebar):</strong><br>
+              <span class="small">Os campos técnicos de fragrância (Pirâmide Olfativa e Clima Ideal) foram ocultados para esta publicação educativa. Preencha apenas o Título, Capa, Conteúdo e Referências.</span>
+            </div>
+          </div>
         </div>
 
         <hr class="my-4">
 
         <!-- Bloco 3: Conteúdo Formatado (Rich Text) -->
         <h5 class="fw-bold mb-3" style="color: var(--sillage-darkgreen);">
-          <i class="bi bi-pencil-square me-2"></i> 3. Conteúdo Formatado (Rich Text) *
+          <i class="bi bi-pencil-square me-2"></i> 2. Conteúdo Formatado (Rich Text) *
         </h5>
 
         <!-- Barra de ferramentas simples para formatação rápida -->
@@ -225,7 +286,7 @@ $csrfToken = generate_csrf_token();
         <!-- Bloco 4: Referências Bibliográficas -->
         <div class="mb-4">
           <label for="referencias" class="form-label fw-semibold">
-            <i class="bi bi-journal-bookmark me-1"></i> Referências & Fontes Bibliográficas
+            <i class="bi bi-journal-bookmark me-1"></i> Referências &amp; Fontes Bibliográficas
           </label>
           <textarea name="referencias" id="referencias" rows="3" class="form-control" placeholder="Ex: Jean-Claude Ellena, O Perfume; Fragrantica; Documentação oficial da Casa de Perfumaria."><?= htmlspecialchars($_POST['referencias'] ?? '') ?></textarea>
         </div>
@@ -261,6 +322,59 @@ function insertLink() {
     document.execCommand('createLink', false, url);
   }
 }
+
+// Sincronização Dinâmica entre Categorias e Exibição Condicional dos Campos (Requisito 3)
+function syncCategoryFlow(cat) {
+  const select = document.getElementById('categoria');
+  const secaoTecnica = document.getElementById('secao-perfume-tecnica');
+  const avisoCuriosidades = document.getElementById('aviso-curiosidades');
+  const hintText = document.getElementById('categoria-hint-text');
+
+  if (select.value !== cat) {
+    select.value = cat;
+  }
+
+  // Atualiza estado ativo das abas nav-tabs
+  document.querySelectorAll('#categoryNavTabs .nav-link').forEach(btn => {
+    if (btn.getAttribute('data-category') === cat) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  if (cat === 'curiosidades') {
+    secaoTecnica.style.display = 'none';
+    avisoCuriosidades.style.display = 'block';
+    hintText.innerHTML = '<span class="text-secondary fw-semibold">Informações / Curiosidades:</span> Ficha técnica e pirâmide olfativa ocultadas.';
+  } else if (cat === 'resenhas') {
+    secaoTecnica.style.display = 'block';
+    avisoCuriosidades.style.display = 'none';
+    hintText.innerHTML = '<span class="text-success fw-semibold">Resenhas Críticas:</span> Ficha técnica e pirâmide olfativa ativas.';
+  } else {
+    secaoTecnica.style.display = 'block';
+    avisoCuriosidades.style.display = 'none';
+    hintText.innerHTML = '<span class="text-success fw-semibold">Notícias & Lançamentos:</span> Pirâmide olfativa e clima ativos.';
+  }
+}
+
+// Event listeners para clique nas abas
+document.querySelectorAll('#categoryNavTabs .nav-link').forEach(btn => {
+  btn.addEventListener('click', function() {
+    syncCategoryFlow(this.getAttribute('data-category'));
+  });
+});
+
+// Event listener para mudança no <select>
+document.getElementById('categoria').addEventListener('change', function() {
+  syncCategoryFlow(this.value);
+});
+
+// Inicialização imediata ao carregar a página
+document.addEventListener('DOMContentLoaded', function() {
+  syncCategoryFlow(document.getElementById('categoria').value);
+});
+syncCategoryFlow(document.getElementById('categoria').value);
 
 // Sincroniza o editor visual com o textarea no submit
 document.querySelector('form').addEventListener('submit', function() {

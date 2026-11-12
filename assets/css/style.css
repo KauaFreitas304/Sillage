@@ -36,7 +36,9 @@
 }
 
 /* Reset e Base */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -60,12 +62,18 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img, svg, video {
+img,
+svg,
+video {
   max-width: 100%;
   height: auto;
 }
 
-h1, h2, h3, h4, .sillage-serif {
+h1,
+h2,
+h3,
+h4,
+.sillage-serif {
   font-family: var(--sillage-font-serif);
   color: var(--sillage-darkgreen);
   letter-spacing: -0.01em;
@@ -109,7 +117,7 @@ a:hover {
 .sillage-logo-img {
   height: 52px;
   width: auto;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.12));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
   flex-shrink: 0;
   transition: height 0.2s ease;
 }
@@ -354,26 +362,81 @@ a:hover {
   min-height: calc(100vh - 140px);
 }
 
-/* Barra Lateral de Tópicos / Curiosidades (Fiel ao Mockup 1) */
+/* Barra Lateral de Tópicos / Curiosidades (Fiel ao Mockup 1 / Requisito 1) */
 .sillage-sidebar {
-  width: 290px;
-  min-width: 290px;
+  width: 300px;
+  min-width: 300px;
   background-color: var(--sillage-sage);
-  padding: 35px 25px 35px 25px;
+  padding: 30px 22px;
   position: relative;
   border-right: 2px solid var(--sillage-champagne);
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .sillage-sidebar {
+    position: sticky;
+    top: 76px;
+    height: fit-content;
+    max-height: calc(100vh - 90px);
+    align-self: flex-start;
+  }
 }
 
 .sillage-sidebar-title {
   font-family: var(--sillage-font-serif);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 600;
   color: #1F2820;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   position: relative;
   padding-bottom: 10px;
   border-bottom: 2px solid var(--sillage-darkgreen);
+  flex-shrink: 0;
+}
+
+/* Container de Rolagem Interna da Sidebar (Requisito 1) */
+.sillage-sidebar-scroll-container {
+  max-height: 500px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sillage-darkgreen) rgba(92, 107, 94, 0.15);
+}
+
+@media (min-width: 992px) {
+  .sillage-sidebar-scroll-container {
+    max-height: calc(100vh - 200px);
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .sillage-sidebar-scroll-container {
+    max-height: 380px;
+  }
+}
+
+/* Custom Scrollbar Webkit */
+.sillage-sidebar-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sillage-sidebar-scroll-container::-webkit-scrollbar-track {
+  background: rgba(92, 107, 94, 0.08);
+  border-radius: var(--sillage-radius-pill);
+}
+
+.sillage-sidebar-scroll-container::-webkit-scrollbar-thumb {
+  background: var(--sillage-darkgreen);
+  border-radius: var(--sillage-radius-pill);
+}
+
+.sillage-sidebar-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: var(--sillage-darkgreen-deep);
 }
 
 .sillage-sidebar-list {
@@ -382,21 +445,23 @@ a:hover {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
 }
 
 .sillage-sidebar-item a {
   display: flex;
   align-items: center;
   font-family: var(--sillage-font-serif);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 500;
   color: #1E291F;
   padding: 10px 14px;
   border-radius: var(--sillage-radius-sm);
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.65);
   border: 1px solid rgba(92, 107, 94, 0.2);
   transition: var(--sillage-transition);
+  text-decoration: none;
+  line-height: 1.35;
 }
 
 .sillage-sidebar-item a::before {
@@ -404,13 +469,14 @@ a:hover {
   font-size: 0.85rem;
   color: var(--sillage-darkgreen);
   margin-right: 10px;
+  flex-shrink: 0;
   transition: var(--sillage-transition);
 }
 
 .sillage-sidebar-item a:hover {
   background: var(--sillage-champagne-light);
   border-color: var(--sillage-champagne-dark);
-  transform: translateX(6px);
+  transform: translateX(5px);
   color: #0E150F;
   box-shadow: 0 4px 10px rgba(92, 107, 94, 0.12);
 }
@@ -454,7 +520,310 @@ a:hover {
   letter-spacing: -0.5px;
 }
 
-/* Carrossel de Lançamentos (Cards no formato do Wireframe 2) */
+/* ========================================================
+   Carrossel de Lançamentos (Bootstrap 5 - Requisito 2)
+   Cards Expandidos preenchendo 100% da Largura Útil
+   ======================================================== */
+.sillage-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.sillage-launch-carousel {
+  width: 100%;
+  position: relative;
+  border-radius: var(--sillage-radius-md);
+}
+
+.sillage-hero-launch-card {
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid rgba(92, 107, 94, 0.18);
+  border-radius: var(--sillage-radius-md);
+  box-shadow: var(--sillage-shadow-md);
+  overflow: hidden;
+  transition: var(--sillage-transition);
+}
+
+@media (min-width: 992px) {
+
+  .sillage-launch-carousel .sillage-hero-launch-card,
+  .sillage-secondary-featured .sillage-hero-launch-card {
+    height: 520px;
+    min-height: 520px;
+    max-height: 520px;
+  }
+
+  .sillage-launch-carousel .sillage-hero-launch-card .row,
+  .sillage-secondary-featured .sillage-hero-launch-card .row {
+    height: 100%;
+  }
+
+  .sillage-launch-carousel .carousel-inner,
+  .sillage-launch-carousel .carousel-item {
+    height: 100%;
+  }
+}
+
+.sillage-hero-launch-card:hover {
+  box-shadow: var(--sillage-shadow-lg);
+  border-color: var(--sillage-champagne-dark);
+}
+
+/* Moldura de Imagem Expandida de Alta Qualidade */
+.sillage-hero-img-wrapper {
+  background: linear-gradient(145deg, #FAFBF9 0%, var(--sillage-champagne-light) 100%);
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(92, 107, 94, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sillage-hero-img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.13));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sillage-hero-launch-card:hover .sillage-hero-img {
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.sillage-hero-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: var(--sillage-darkgreen);
+  color: var(--sillage-champagne-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 5px 12px;
+  border-radius: var(--sillage-radius-pill);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 2;
+}
+
+/* Corpo do Card Expandido (100% da Largura da Coluna Central) */
+.sillage-hero-card-body {
+  padding: 26px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.sillage-badge-family {
+  background-color: rgba(159, 175, 144, 0.3);
+  color: var(--sillage-darkgreen-deep);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+}
+
+.sillage-badge-conc {
+  background-color: var(--sillage-champagne-light);
+  color: #5A4820;
+  border: 1px solid var(--sillage-champagne-dark);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 6px 14px;
+}
+
+.sillage-hero-title {
+  font-family: var(--sillage-font-serif);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: #1F2820;
+  line-height: 1.25;
+  margin-bottom: 6px;
+}
+
+.sillage-hero-title a {
+  color: #1F2820;
+  text-decoration: none;
+  transition: var(--sillage-transition);
+}
+
+.sillage-hero-title a:hover {
+  color: var(--sillage-darkgreen);
+}
+
+.sillage-hero-subtitle {
+  font-size: 0.95rem;
+  color: #49584B;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+
+.sillage-hero-description {
+  font-size: 0.96rem;
+  color: #2F3B30;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+/* Box Pirâmide Olfativa do Carrossel */
+.sillage-hero-pyramid-box {
+  background: rgba(159, 175, 144, 0.15);
+  border: 1px solid rgba(92, 107, 94, 0.22);
+  border-radius: var(--sillage-radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.sillage-pyramid-header {
+  font-family: var(--sillage-font-serif);
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--sillage-darkgreen-deep);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.sillage-pyramid-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sillage-note-item {
+  font-size: 0.88rem;
+  color: #263327;
+  line-height: 1.45;
+}
+
+.sillage-note-item .note-level {
+  font-weight: 700;
+  color: var(--sillage-darkgreen);
+  display: inline-block;
+  min-width: 65px;
+}
+
+.sillage-hero-climate {
+  font-size: 0.88rem;
+  color: #2F3B30;
+}
+
+/* Indicadores Estilizados com as Cores do Projeto (Requisito 2) */
+.sillage-carousel-indicators {
+  position: static;
+  margin-top: 20px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+}
+
+.sillage-carousel-indicators [data-bs-target] {
+  width: 24px;
+  height: 6px;
+  border-radius: var(--sillage-radius-pill);
+  background-color: var(--sillage-darkgreen);
+  opacity: 0.3;
+  border: none;
+  transition: all 0.3s ease;
+  padding: 0;
+  margin: 0;
+}
+
+.sillage-carousel-indicators .active {
+  opacity: 1;
+  width: 44px;
+  background-color: var(--sillage-darkgreen);
+}
+
+/* Controles Laterais Flutuantes do Carrossel */
+.sillage-carousel-control {
+  width: 44px;
+  height: 44px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(92, 107, 94, 0.25);
+  border-radius: 50%;
+  opacity: 0.85;
+  transition: var(--sillage-transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  color: var(--sillage-darkgreen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.sillage-carousel-control:hover,
+.sillage-carousel-control:focus {
+  background: var(--sillage-darkgreen);
+  color: var(--sillage-champagne-light);
+  opacity: 1;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+}
+
+.sillage-carousel-control.carousel-control-prev {
+  left: -22px;
+}
+
+.sillage-carousel-control.carousel-control-next {
+  right: -22px;
+}
+
+.sillage-carousel-control-icon {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Setas do Topo do Carrossel */
+.sillage-carousel-arrow {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.5px solid var(--sillage-darkgreen);
+  color: var(--sillage-darkgreen);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--sillage-transition);
+}
+
+.sillage-carousel-arrow:hover {
+  background: var(--sillage-darkgreen);
+  color: var(--sillage-champagne-light);
+  transform: scale(1.08);
+}
+
+/* ========================================================
+   Segundo Bloco de Destaque (Apenas Desktop - Requisito)
+   ======================================================== */
+.sillage-secondary-featured {
+  display: block;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .sillage-secondary-featured {
+    display: none !important;
+  }
+}
+
+/* Fallback e Compatibilidade com Cards Simples */
 .sillage-carousel-container {
   position: relative;
   padding: 10px 40px;
@@ -551,16 +920,29 @@ a:hover {
 }
 
 .sillage-btn-explore {
-  margin-top: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
   background: var(--sillage-champagne);
   color: var(--sillage-darkgreen-deep);
   font-weight: 600;
-  font-size: 0.9rem;
-  padding: 8px 18px;
+  font-size: 0.92rem;
+  padding: 10px 22px;
   border-radius: var(--sillage-radius-pill);
   text-align: center;
   transition: var(--sillage-transition);
-  border: none;
+  border: 1px solid var(--sillage-champagne-dark);
+  text-decoration: none;
+}
+
+.sillage-btn-explore:hover {
+  background: var(--sillage-darkgreen);
+  color: var(--sillage-champagne-light);
+  border-color: var(--sillage-darkgreen);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(92, 107, 94, 0.25);
 }
 
 .sillage-btn-explore:hover {
@@ -570,85 +952,279 @@ a:hover {
 }
 
 /* ========================================================
-   Página de Resenhas (RF02 / Wireframe 3)
+   Página de Resenhas - Grid Editorial Moderno e Leve (RF02)
    ======================================================== */
-.sillage-reviews-container {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 20px;
+.sillage-reviews-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Toolbar de Filtro e Busca Rápida */
+.sillage-filter-toolbar {
+  background: #FAF9F5;
+  border: 1px solid #D5D8CE;
+  border-radius: var(--sillage-radius-md);
+  padding: 18px 22px;
+  box-shadow: 0 2px 8px rgba(74, 88, 72, 0.04);
+  margin-bottom: 28px;
+}
+
+.sillage-search-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sillage-search-icon {
+  position: absolute;
+  left: 14px;
+  color: #7A8778;
+  font-size: 0.95rem;
+  pointer-events: none;
+}
+
+.sillage-search-input {
+  padding-left: 40px;
+  padding-right: 36px;
+  height: 42px;
+  border-radius: var(--sillage-radius-pill);
+  border: 1px solid #D5D8CE;
+  background-color: #FFFFFF;
+  font-size: 0.92rem;
+  color: #2F392E;
+  transition: all 0.25s ease;
+}
+
+.sillage-search-input:focus {
+  border-color: #4A5848;
+  box-shadow: 0 0 0 3px rgba(74, 88, 72, 0.15);
+  background-color: #FFFFFF;
+}
+
+.sillage-search-clear {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #9AA398;
+  padding: 4px 8px;
+}
+
+.sillage-search-clear:hover {
+  color: #4A5848;
+}
+
+.sillage-quick-filters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sillage-filter-btn {
+  background-color: #FFFFFF;
+  color: #4A5848;
+  border: 1px solid #D5D8CE;
+  border-radius: var(--sillage-radius-pill);
+  padding: 6px 15px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.sillage-filter-btn:hover {
+  background-color: #EEF0EA;
+  color: #2F392E;
+  border-color: #B5BBAE;
+}
+
+.sillage-filter-btn.active {
+  background-color: #4A5848;
+  color: #FAF9F5;
+  border-color: #4A5848;
+  box-shadow: 0 2px 6px rgba(74, 88, 72, 0.2);
+}
+
+.sillage-filter-btn.active .count-badge {
+  background-color: #FAF9F5 !important;
+  color: #4A5848 !important;
+}
+
+/* Grid Responsivo de 3 Colunas (Requisito 1) */
+.sillage-reviews-container,
+.sillage-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+/* Card Editorial Mais Leve (Requisito 2) */
+.sillage-review-grid-card {
+  background: #FAF9F5;
+  border: 1px solid #D5D8CE;
+  border-radius: var(--sillage-radius-md);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-.sillage-review-wide-card {
-  background: var(--sillage-darkgreen);
-  border: 2px solid var(--sillage-champagne);
-  border-radius: var(--sillage-radius-md);
-  padding: 24px;
-  display: flex;
-  align-items: stretch;
-  gap: 30px;
-  box-shadow: var(--sillage-shadow-md);
-  transition: var(--sillage-transition);
+.sillage-review-grid-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(74, 88, 72, 0.12);
+  border-color: #B5BBAE;
 }
 
-.sillage-review-wide-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--sillage-shadow-lg);
-  border-color: #FFF;
-}
-
-.sillage-review-thumb {
-  width: 220px;
-  min-width: 220px;
-  background: #FFFFFF;
-  border-radius: var(--sillage-radius-sm);
+/* Container de Imagem Padronizada no Topo - 240px Fundo Branco Puro (Requisito 3) */
+.sillage-review-img-box {
+  height: 240px;
+  min-height: 240px;
+  max-height: 240px;
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #D5D8CE;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px;
-  border: 1px solid rgba(242, 220, 177, 0.5);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
 }
 
-.sillage-review-thumb img {
+.sillage-review-img-box img {
+  width: auto;
+  height: auto;
   max-width: 100%;
-  max-height: 200px;
+  max-height: 192px;
   object-fit: contain;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.08));
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sillage-review-details {
-  flex: 1;
+.sillage-review-grid-card:hover .sillage-review-img-box img {
+  transform: scale(1.05);
+}
+
+/* Corpo do Card Enxuto (Requisito 4) */
+.sillage-review-card-body {
+  padding: 20px 22px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: var(--sillage-offwhite);
+  flex: 1;
 }
 
-.sillage-review-title {
+/* Tag / Badge com a Marca */
+.sillage-brand-pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: rgba(159, 175, 144, 0.25);
+  color: #384537;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 10px;
+  border-radius: var(--sillage-radius-pill);
+  border: 1px solid rgba(74, 88, 72, 0.18);
+}
+
+/* Título do Perfume em Verde-Musgo */
+.sillage-review-card-title {
   font-family: var(--sillage-font-serif);
-  font-size: 1.8rem;
-  color: var(--sillage-champagne);
-  margin-bottom: 8px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #4A5848;
+  line-height: 1.3;
+  margin-top: 8px;
+  margin-bottom: 14px;
 }
 
-.sillage-review-info-line {
-  font-size: 1.05rem;
-  color: var(--sillage-offwhite);
-  margin-bottom: 4px;
+.sillage-review-card-title a {
+  color: #4A5848;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-.sillage-review-info-line strong {
-  color: var(--sillage-champagne-light);
+.sillage-review-card-title a:hover {
+  color: #2F392E;
 }
 
-.sillage-review-pyramid-block {
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: rgba(0, 0, 0, 0.15);
-  border-left: 3px solid var(--sillage-lilac);
-  border-radius: 4px;
-  font-size: 0.95rem;
+/* Ficha Olfativa Enxuta */
+.sillage-review-meta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+  color: #3F4A3E;
+  background: #FFFFFF;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #E4E7DF;
+}
+
+.sillage-review-meta-row {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+}
+
+.sillage-review-meta-row .meta-label {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #627160;
+  margin-bottom: 1px;
+}
+
+.sillage-review-meta-row .meta-value {
+  color: #273026;
+  font-weight: 500;
+}
+
+/* Rodapé do Card */
+.sillage-review-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid #E4E7DF;
+}
+
+.sillage-review-card-date {
+  font-size: 0.82rem;
+  color: #748072;
+}
+
+/* Botão em Verde-Musgo 'Ler Resenha' / 'Ler Resenha Completa' */
+.sillage-review-btn {
+  background-color: #4A5848;
+  color: #FAF9F5;
+  border: 1px solid #4A5848;
+  border-radius: var(--sillage-radius-pill);
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.sillage-review-btn:hover {
+  background-color: #384337;
+  color: #FFFFFF;
+  border-color: #384337;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(74, 88, 72, 0.25);
 }
 
 /* ========================================================
@@ -834,9 +1410,17 @@ a:hover {
   border-left: 4px solid var(--sillage-sage);
 }
 
-.sillage-pyramid-level.topo { border-left-color: var(--sillage-champagne-dark); }
-.sillage-pyramid-level.corpo { border-left-color: var(--sillage-lilac); }
-.sillage-pyramid-level.fundo { border-left-color: var(--sillage-darkgreen); }
+.sillage-pyramid-level.topo {
+  border-left-color: var(--sillage-champagne-dark);
+}
+
+.sillage-pyramid-level.corpo {
+  border-left-color: var(--sillage-lilac);
+}
+
+.sillage-pyramid-level.fundo {
+  border-left-color: var(--sillage-darkgreen);
+}
 
 .sillage-post-content {
   font-size: 1.12rem;
@@ -933,8 +1517,15 @@ a:hover {
 }
 
 @keyframes slideUpLGPD {
-  from { transform: translateY(100px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .sillage-lgpd-text {
@@ -1220,28 +1811,47 @@ a:hover {
     width: 100%;
   }
 
-  /* Cards de Resenha Aprofundada no Tablet */
-  .sillage-review-wide-card {
-    flex-direction: column;
-    padding: 20px;
+  /* Carrossel Hero Responsivo no Tablet / Mobile */
+  .sillage-hero-img-wrapper {
+    min-height: 250px;
+    height: 250px;
+    border-right: none;
+    border-bottom: 1px solid rgba(92, 107, 94, 0.12);
+    padding: 18px;
+  }
+
+  .sillage-hero-img {
+    height: auto;
+    max-height: 200px;
+    max-width: 85%;
+  }
+
+  .sillage-hero-card-body {
+    padding: 22px 18px 28px 18px;
+  }
+
+  .sillage-hero-title {
+    font-size: 1.45rem;
+  }
+
+  .sillage-carousel-control.carousel-control-prev {
+    left: 6px;
+  }
+
+  .sillage-carousel-control.carousel-control-next {
+    right: 6px;
+  }
+
+  /* Grid de Resenhas no Tablet */
+  .sillage-reviews-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 20px;
-  }
-
-  .sillage-review-thumb {
-    width: 100%;
-    min-width: 0;
-    height: 220px;
-    margin-bottom: 0;
-  }
-
-  .sillage-review-details {
-    padding: 0;
-    min-width: 0;
   }
 }
 
 /* Telas Pequenas / Celulares (< 768px) */
 @media (max-width: 767px) {
+
   /* Cabeçalho Superior Adaptável */
   .sillage-header {
     padding: 6px 0;
@@ -1256,7 +1866,8 @@ a:hover {
   }
 
   .sillage-page-title-badge {
-    display: none !important; /* Libera espaço total para a marca e botões de ação no mobile */
+    display: none !important;
+    /* Libera espaço total para a marca e botões de ação no mobile */
   }
 
   .sillage-mobile-actions {
@@ -1343,50 +1954,17 @@ a:hover {
   }
 
   /* Página de Resenhas (RF02) */
-  .sillage-reviews-container {
-    padding: 0;
-    gap: 18px;
+  .sillage-reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 
-  .sillage-review-wide-card {
+  .sillage-filter-toolbar {
     padding: 16px;
-    gap: 16px;
   }
 
-  .sillage-review-thumb {
-    height: 190px;
-    padding: 10px;
-  }
-
-  .sillage-review-title {
-    font-size: 1.3rem;
-    line-height: 1.25;
-  }
-
-  .sillage-review-info-line {
-    font-size: 0.92rem;
-  }
-
-  .sillage-review-pyramid-block {
-    padding: 8px 12px;
-    font-size: 0.86rem;
-  }
-
-  .sillage-review-footer {
-    flex-direction: column;
-    align-items: stretch !important;
-    gap: 12px;
-    margin-top: 14px;
-  }
-
-  .sillage-review-footer span {
-    text-align: center;
-    font-size: 0.8rem;
-  }
-
-  .sillage-review-footer .sillage-btn-explore {
-    width: 100%;
-    min-height: 44px;
+  .sillage-quick-filters {
+    justify-content: flex-start;
   }
 
   /* Página Sobre o Grupo (RF03) */
@@ -1495,7 +2073,8 @@ a:hover {
   }
 
   .sillage-login-input {
-    font-size: 16px !important; /* Previne auto-zoom indesejado no iOS Safari */
+    font-size: 16px !important;
+    /* Previne auto-zoom indesejado no iOS Safari */
     min-height: 46px;
     padding: 10px 16px;
   }
@@ -1567,7 +2146,8 @@ a:hover {
   }
 
   .sillage-page-title-badge {
-    display: none !important; /* Libera espaço total para a marca e botões de ação */
+    display: none !important;
+    /* Libera espaço total para a marca e botões de ação */
   }
 
   .sillage-mobile-actions {
@@ -1636,7 +2216,7 @@ a:hover {
   .navbar-brand img {
     height: 28px !important;
   }
-  
+
   header.navbar nav {
     width: 100%;
     justify-content: flex-start;
@@ -1671,4 +2251,46 @@ a:hover {
   }
 }
 
+/* ========================================================
+   Painel Administrativo: Abas de Categoria Editorial (Requisito 3)
+   ======================================================== */
+.sillage-cat-tabs {
+  border-bottom: 2px solid var(--sillage-champagne);
+  gap: 6px;
+}
 
+.sillage-cat-tabs .nav-item {
+  margin-bottom: -2px;
+}
+
+.sillage-cat-tabs .nav-link {
+  font-family: var(--sillage-font-serif);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--sillage-darkgreen);
+  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  border-radius: var(--sillage-radius-sm) var(--sillage-radius-sm) 0 0;
+  padding: 10px 18px;
+  background: rgba(159, 175, 144, 0.12);
+  transition: var(--sillage-transition);
+}
+
+.sillage-cat-tabs .nav-link:hover {
+  color: var(--sillage-darkgreen-deep);
+  background: var(--sillage-champagne-light);
+  border-color: rgba(92, 107, 94, 0.15) rgba(92, 107, 94, 0.15) transparent;
+}
+
+.sillage-cat-tabs .nav-link.active {
+  color: #1F2820;
+  background: #FFFFFF;
+  border-color: var(--sillage-champagne) var(--sillage-champagne) #FFFFFF;
+  border-bottom: 2px solid #FFFFFF;
+  font-weight: 700;
+  box-shadow: 0 -3px 10px rgba(92, 107, 94, 0.08);
+}
+
+.sillage-conditional-section {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
